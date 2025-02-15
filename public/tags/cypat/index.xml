@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cypat on Ethan Ho</title>
+    <link>https://eth007.me/blog/tags/cypat/</link>
+    <description>Recent content in cypat on Ethan Ho</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Eth007</copyright>
+    <lastBuildDate>Mon, 10 Oct 2022 00:31:41 +0000</lastBuildDate><atom:link href="https://eth007.me/blog/tags/cypat/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CyberPatriot Practice Images</title>
+      <link>https://eth007.me/blog/cypat/</link>
+      <pubDate>Mon, 10 Oct 2022 00:31:41 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/cypat/</guid>
+      <description>These are some of my CyberPatriot practice images that I have made, mostly as part of ImaginaryCTF.
+System Hardening 6 - Narnia Minecraft Server (Ubuntu 22, Easy)  The citizens of Narnia need your help. Can you secure their Minecraft server?
+  Image Download README Link  System Hardening 7 - rooReaper Strikes Back (Ubuntu 22, Easy)  Can you help? rooReaper has enacted his revenge, and our systems are compromised.</description>
+    </item>
+    
+  </channel>
+</rss>

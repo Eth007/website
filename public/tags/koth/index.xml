@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>koth on Ethan Ho</title>
+    <link>https://eth007.me/blog/tags/koth/</link>
+    <description>Recent content in koth on Ethan Ho</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Eth007</copyright>
+    <lastBuildDate>Mon, 22 May 2023 18:42:45 +0000</lastBuildDate><atom:link href="https://eth007.me/blog/tags/koth/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack a Bit 0x1 - King of the Hill</title>
+      <link>https://eth007.me/blog/posts/hackabit-0x1-koth/</link>
+      <pubDate>Mon, 22 May 2023 18:42:45 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/posts/hackabit-0x1-koth/</guid>
+      <description>Different box this time, your target is now 10.128.0.4&amp;ndash;straight to root. Remember that there may be non-vulnerable services on the machine. Recon is the #1 focus.
+Once you have access to the fourth machine in the range you need to listen on port tcp/5000, you can do this with nc, for example. The flag will be sent at a specific time. Retain control of the box to get all the flags.</description>
+    </item>
+    
+  </channel>
+</rss>

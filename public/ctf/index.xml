@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ctfs on Ethan Ho</title>
+    <link>https://eth007.me/blog/ctf/</link>
+    <description>Recent content in Ctfs on Ethan Ho</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Eth007</copyright>
+    <lastBuildDate>Wed, 09 Aug 2023 17:31:14 +0000</lastBuildDate><atom:link href="https://eth007.me/blog/ctf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LIT CTF 2023 - stiller-printf</title>
+      <link>https://eth007.me/blog/ctf/stiller-printf/</link>
+      <pubDate>Wed, 09 Aug 2023 17:31:14 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/ctf/stiller-printf/</guid>
+      <description>So it&amp;rsquo;s consistent right? Hint: http://blog.redrocket.club/2020/12/23/HXPCTF-Still_Printf/ Connect with nc litctf.org 31779
+ Last weekend, I played LIT CTF 2023 with a few friends. We solved 46/53 of the challenges, and ended up in first place overall (and first place in the high school division). I mainly focused on the binary exploitation challenges (and solved all seven of them!), but I also took a look at the pyjail challenges (which were pretty cool!</description>
+    </item>
+    
+    <item>
+      <title>Hack a Bit 0x1 - King of the Hill</title>
+      <link>https://eth007.me/blog/ctf/hackabit-0x1-koth/</link>
+      <pubDate>Mon, 22 May 2023 18:42:45 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/ctf/hackabit-0x1-koth/</guid>
+      <description>Different box this time, your target is now 10.128.0.4&amp;ndash;straight to root. Remember that there may be non-vulnerable services on the machine. Recon is the #1 focus.
+Once you have access to the fourth machine in the range you need to listen on port tcp/5000, you can do this with nc, for example. The flag will be sent at a specific time. Retain control of the box to get all the flags.</description>
+    </item>
+    
+    <item>
+      <title>US Cyber Open 2022 - Too Many Houses</title>
+      <link>https://eth007.me/blog/ctf/too-many-houses/</link>
+      <pubDate>Wed, 14 Sep 2022 05:47:11 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/ctf/too-many-houses/</guid>
+      <description>All these talks of houses are starting to ruin the fun of the hunt, maybe you can do something about that
+0.cloud.chals.io:20887
+Author: lms
+ too_many_houses.tar.gz   Too Many Houses was a binary exploitation challenge in the US Cyber Open CTF in 2022, which is the first step toward qualification for the US Cyber Team. At the end of the CTF, it was worth 1000 points and had only 1 solve.</description>
+    </item>
+    
+    <item>
+      <title>US Cyber Open 2022 - Gibson</title>
+      <link>https://eth007.me/blog/ctf/gibson/</link>
+      <pubDate>Wed, 14 Sep 2022 05:24:42 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/ctf/gibson/</guid>
+      <description>Can you really call it a &amp;ldquo;main&amp;quot;frame if I haven&amp;rsquo;t used it before now? Author: Research Innovations, Inc. (RII)
+ gibson_s390x.tar   Gibson was a binary exploitation challenge in the US Cyber Open CTF in 2022, which is the first step toward qualification for the US Cyber Team. At the end of the CTF, it was worth 1000 points and had 10 solves. I was the fourth solve on this challenge (could have been second if CTFd wasn&amp;rsquo;t glitching[1]😔).</description>
+    </item>
+    
+    <item>
+      <title>ImaginaryCTF 2021 - inkaphobia</title>
+      <link>https://eth007.me/blog/ctf/inkaphobia/</link>
+      <pubDate>Tue, 13 Sep 2022 05:52:53 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/ctf/inkaphobia/</guid>
+      <description>Seems that random.org limits how much entropy you can use per day. So why not reuse entropy?
+https://imaginaryctf.org/r/505D-inkaphobia https://imaginaryctf.org/r/D39E-libc.so.6 nc chal.imaginaryctf.org 42008
+ tl; dr Leak stack using leaks in random number generation, use format string to write to the return address and ret2libc.
+solving Well, we got a binary, a libc, and a netcat connection. Upon running the binary, we see that it lets us &amp;ldquo;generate&amp;rdquo; 6 random numbers, and then asks for our name.</description>
+    </item>
+    
+  </channel>
+</rss>

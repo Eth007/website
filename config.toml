@@ -1,0 +1,69 @@
+baseURL = 'https://eth007.me/blog/'
+languageCode = 'en-us'
+title = "Ethan Ho"
+theme = "tophat-theme"
+copyright = "© Eth007"
+
+pygmentsstyle = "monokai"
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+
+paginate=10 # articles per page
+
+#disableKinds = ["taxonomy"]
+#ignoreErrors = ["error-disable-taxonomy"]
+
+[params]
+  about = "about"
+  main = "posts"
+  featured = true
+  
+  show_date_on_article = true
+  show_reading_time_on_article = true
+  show_words_count_on_article = true
+  show_tags_on_article = true  
+  mode="auto" # color-mode → light,dark,toggle or auto
+  useCDN=false # don't use CDNs for fonts and icons, instead serve them locally.
+  subtitle = ""
+#  subtitle = "My personal blog, where I will post things that I find interesting."
+# Social Tags
+
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+#    hl_Lines = ''
+#    hl_inline = false
+#    lineAnchors = ''
+#    lineNoStart = 1
+#    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    noHl = false
+    style = 'base16-snazzy'
+    tabWidth = 4
+
+#[[menu.main]]
+#name = "ome"
+#url = "/"
+#weight = 1
+
+[[menu.main]]
+name = "home"
+url = "/"
+weight = 3
+
+[[menu.main]]
+name = "projects"
+url = "/cypat"
+weight = 3
+
+[[menu.main]]
+name = "github"
+url = "https://github.com/Eth007"
+
+[[menu.main]]
+name = "resume"
+url = "https://eth007.me/resume.pdf"
+

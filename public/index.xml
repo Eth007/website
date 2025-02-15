@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ethan Ho</title>
+    <link>https://eth007.me/blog/</link>
+    <description>Recent content on Ethan Ho</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Eth007</copyright>
+    <lastBuildDate>Thu, 28 Mar 2024 19:21:13 +0000</lastBuildDate><atom:link href="https://eth007.me/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PicoCTF 2024 - high frequency troubles</title>
+      <link>https://eth007.me/blog/posts/high-frequency-troubles/</link>
+      <pubDate>Thu, 28 Mar 2024 19:21:13 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/posts/high-frequency-troubles/</guid>
+      <description>A few weeks ago, I played PicoCTF 2024 with a few friends. We were the first team to solve all the challenges, getting us first place on the high school scoreboard and first place overall. high frequency troubles by pepsipu was the least-solved challenge in the competition, with 31 solves at the end of the competition. I worked on this challenge with my teammate stuckin414141, and we were able to solve it with a pretty cool (although slightly unintended) solution.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://eth007.me/blog/about/about/</link>
+      <pubDate>Wed, 27 Mar 2024 05:51:12 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/about/about/</guid>
+      <description>Hi! I&amp;rsquo;m Ethan, a current student at Stanford University.
+I play CTFs with various teams (including idek and .;,;.) and compete in the International Cybersecurity Championship on the United States team.
+Also, I am the founder of ImaginaryCTF, a community that produces daily CTF challenges for the community to learn and practice.
+On this blog, I post occasional writeups of CTF challenges, as well as other topics (sometimes). Hope you enjoy your time here!</description>
+    </item>
+    
+    <item>
+      <title>LIT CTF 2023 - stiller-printf</title>
+      <link>https://eth007.me/blog/posts/stiller-printf/</link>
+      <pubDate>Wed, 09 Aug 2023 17:31:14 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/posts/stiller-printf/</guid>
+      <description>So it&amp;rsquo;s consistent right? Hint: http://blog.redrocket.club/2020/12/23/HXPCTF-Still_Printf/ Connect with nc litctf.org 31779
+ Last weekend, I played LIT CTF 2023 with a few friends. We solved 46/53 of the challenges, and ended up in first place overall (and first place in the high school division). I mainly focused on the binary exploitation challenges (and solved all seven of them!), but I also took a look at the pyjail challenges (which were pretty cool!</description>
+    </item>
+    
+    <item>
+      <title>Hack a Bit 0x1 - King of the Hill</title>
+      <link>https://eth007.me/blog/posts/hackabit-0x1-koth/</link>
+      <pubDate>Mon, 22 May 2023 18:42:45 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/posts/hackabit-0x1-koth/</guid>
+      <description>Different box this time, your target is now 10.128.0.4&amp;ndash;straight to root. Remember that there may be non-vulnerable services on the machine. Recon is the #1 focus.
+Once you have access to the fourth machine in the range you need to listen on port tcp/5000, you can do this with nc, for example. The flag will be sent at a specific time. Retain control of the box to get all the flags.</description>
+    </item>
+    
+    <item>
+      <title>CyberPatriot Practice Images</title>
+      <link>https://eth007.me/blog/cypat/</link>
+      <pubDate>Mon, 10 Oct 2022 00:31:41 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/cypat/</guid>
+      <description>These are some of my CyberPatriot practice images that I have made, mostly as part of ImaginaryCTF.
+System Hardening 6 - Narnia Minecraft Server (Ubuntu 22, Easy)  The citizens of Narnia need your help. Can you secure their Minecraft server?
+  Image Download README Link  System Hardening 7 - rooReaper Strikes Back (Ubuntu 22, Easy)  Can you help? rooReaper has enacted his revenge, and our systems are compromised.</description>
+    </item>
+    
+    <item>
+      <title>US Cyber Open 2022 - Too Many Houses</title>
+      <link>https://eth007.me/blog/posts/too-many-houses/</link>
+      <pubDate>Wed, 14 Sep 2022 05:47:11 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/posts/too-many-houses/</guid>
+      <description>All these talks of houses are starting to ruin the fun of the hunt, maybe you can do something about that
+0.cloud.chals.io:20887
+Author: lms
+ too_many_houses.tar.gz   Too Many Houses was a binary exploitation challenge in the US Cyber Open CTF in 2022, which is the first step toward qualification for the US Cyber Team. At the end of the CTF, it was worth 1000 points and had only 1 solve.</description>
+    </item>
+    
+    <item>
+      <title>US Cyber Open 2022 - Gibson</title>
+      <link>https://eth007.me/blog/posts/gibson/</link>
+      <pubDate>Wed, 14 Sep 2022 05:24:42 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/posts/gibson/</guid>
+      <description>Can you really call it a &amp;ldquo;main&amp;quot;frame if I haven&amp;rsquo;t used it before now? Author: Research Innovations, Inc. (RII)
+ gibson_s390x.tar   Gibson was a binary exploitation challenge in the US Cyber Open CTF in 2022, which is the first step toward qualification for the US Cyber Team. At the end of the CTF, it was worth 1000 points and had 10 solves. I was the fourth solve on this challenge (could have been second if CTFd wasn&amp;rsquo;t glitching[1]😔).</description>
+    </item>
+    
+    <item>
+      <title>ImaginaryCTF 2021 - inkaphobia</title>
+      <link>https://eth007.me/blog/posts/inkaphobia/</link>
+      <pubDate>Tue, 13 Sep 2022 05:52:53 +0000</pubDate>
+      
+      <guid>https://eth007.me/blog/posts/inkaphobia/</guid>
+      <description>Seems that random.org limits how much entropy you can use per day. So why not reuse entropy?
+https://imaginaryctf.org/r/505D-inkaphobia https://imaginaryctf.org/r/D39E-libc.so.6 nc chal.imaginaryctf.org 42008
+ tl; dr Leak stack using leaks in random number generation, use format string to write to the return address and ret2libc.
+solving Well, we got a binary, a libc, and a netcat connection. Upon running the binary, we see that it lets us &amp;ldquo;generate&amp;rdquo; 6 random numbers, and then asks for our name.</description>
+    </item>
+    
+  </channel>
+</rss>

